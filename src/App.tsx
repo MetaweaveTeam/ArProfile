@@ -1,24 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
+import { icons } from './static';
 import './App.css';
+import Login from './components/Login';
+
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { a11yDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+      <header>
+        <img src={icons.metaweave} alt="logo" />
+        <h1>Account</h1>
         <p>
-          Edit <code>src/App.tsx</code> and save to reload.
+          An universal account protocol for your Arweave Wallet.
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <p>
+          Permanent - Decentralized - Owned by you
+        </p>
       </header>
+      <main>
+        <h2>Login</h2>
+        <Login />
+        <h2>Developers</h2>
+        <SyntaxHighlighter language="shell" style={a11yDark}>
+          npm install arweave-account
+        </SyntaxHighlighter>
+        <SyntaxHighlighter language="javascript" style={a11yDark}>
+          {`import { Account } from 'arweave-account'
+
+Account.get(jwk); // Get Account profile
+Account.search(handle); // return array of users`}
+        </SyntaxHighlighter>
+      </main>
     </div>
   );
 }
