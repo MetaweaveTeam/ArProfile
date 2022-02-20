@@ -3,10 +3,18 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import {ThemeProvider} from 'styled-components';
+import {light, dark} from './static/styles/colors';
+import GlobalStyle from './static/styles/global';
+
+const mq = window.matchMedia('(prefers-color-scheme: dark)');
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <ThemeProvider theme={mq.matches ? dark : light}>
+      <GlobalStyle />
+      <App />
+    </ThemeProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

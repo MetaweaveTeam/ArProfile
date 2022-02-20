@@ -9,6 +9,19 @@ const arweave = Arweave.init({
   logging: false,
 });
 
+const vertoID = {
+  "username":"bidetaggle",
+  "name":"Axel",
+  "addresses":["aIUmY9Iy4qoW3HOikTy6aJww-mM4Y-CUJ7mXoPdzdog"],
+  "bio":"Software Engineer.\nFullstack developer.\nTraveler.\nFounder of Argora.",
+  "links": {
+    "twitter":"bidetaggle",
+    "instagram":"bidetaggle",
+    "github":"bidetaggle",
+    "facebook":"justfortest"
+  }
+};
+
 function Profile({disconnectWallet}: {disconnectWallet: () => void}) {
 
   const sendTx = async () => {
