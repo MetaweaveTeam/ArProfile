@@ -19,7 +19,7 @@ function App() {
         </p>
       </header>
       <main>
-        <h2>Login</h2>
+        <h2>Edit your profile</h2>
         <Login />
         <h2>Developers</h2>
         <SyntaxHighlighter language="shell" style={a11yDark}>

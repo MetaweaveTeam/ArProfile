@@ -55,7 +55,7 @@ function Login({onClick}: {onClick?: () => void}) {
   };
 
   return(jwk
-    ? <Profile disconnectWallet={disconnectWallet}/>
+    ? <Profile jwk={jwk} disconnectWallet={disconnectWallet}/>
     : <div className="connection">
         <div className="wallet" onClick={connectWallet}>
           <img src={icons.arconnect} alt="ArConnect" />
