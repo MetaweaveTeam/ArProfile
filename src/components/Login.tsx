@@ -3,6 +3,9 @@ import useArConnect from 'use-arconnect';
 import { icons } from '../static';
 import Profile from './Profile';
 import { ArweaveWebWallet } from 'arweave-wallet-connector';
+import { WebBundlr } from "@bundlr-network/client";
+import { providers } from "ethers";
+import { Web3Provider } from "@ethersproject/providers";
 
 const arConnectPermissions = [
   "ACCESS_ADDRESS",
@@ -38,6 +41,7 @@ function Login({onClick}: {onClick?: () => void}) {
     setJwk(undefined);
   };
 
+
   const login = {
     arconnect: async () => {
       if (!arConnect) return window.open("https://arconnect.io");
@@ -53,8 +57,30 @@ function Login({onClick}: {onClick?: () => void}) {
       const wallet = await webWallet.namespaces.arweaveWallet;
       setJwk(await wallet.getActiveAddress());
     },
-    bundlr: () => {
-      alert("bundlr!");
+    bundlr: async () => {
+      const connectWeb3 = async (connector: any) => {
+        const p = new providers.Web3Provider(connector);
+        await p._ready();
+        return p;
+      }
+
+      const providerMap = {
+        "MetaMask": async (c: any) => {
+          if (!(window as any)?.ethereum?.isMetaMask) return;
+          return await connectWeb3((window as any).ethereum);
+        }
+      }
+      
+      const currencyMap = {
+        "matic": {
+          providers: ["MetaMask"],
+        },
+      }
+
+      const providerFunc = providerMap["MetaMask"];
+      const currency = currencyMap["matic"];
+      const provider = await providerFunc(currency);
+      const bundlr = new WebBundlr("https://node1.bundlr.network", "matic", provider);
     }
   }
 

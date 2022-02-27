@@ -3,8 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@bundlr-network/client": "^0.5.16",
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
+    "@ethersproject/providers": "^5.5.3",
     "@mui/icons-material": "^5.4.2",
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^12.1.3",
@@ -18,6 +20,7 @@
     "arweave-globalstorage": "^0.0.6",
     "arweave-js": "^1.0.0",
     "arweave-wallet-connector": "^0.0.23",
+    "ethers": "^5.5.4",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "5.0.0",
@@ -25,7 +28,13 @@
     "styled-components": "^5.3.3",
     "typescript": "^4.5.5",
     "use-arconnect": "^1.0.1",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "//": "workaround for removed polyfills from webpack 5 (react-scripts 5.0.0)",
+    "buffer": "^6.0.3",
+    "crypto": "npm:crypto-browserify",
+    "stream": "npm:stream-browserify",
+    "assert": "npm:assert-browserify",
+    "zlib": "npm:zlib-browserify"
   },
   "scripts": {
     "//": "Workaround warnings from react-scripts 5.0.0: https://github.com/facebook/create-react-app/discussions/11767#discussioncomment-2092902",
