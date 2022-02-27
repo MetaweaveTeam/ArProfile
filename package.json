@@ -14,7 +14,7 @@
     "@types/react": "^17.0.39",
     "@types/react-dom": "^17.0.11",
     "ardb": "^1.1.10",
-    "arweave-account": "^0.0.1",
+    "arweave-account": "^0.0.5",
     "arweave-globalstorage": "^0.0.6",
     "arweave-js": "^1.0.0",
     "arweave-wallet-connector": "^0.0.23",
@@ -28,7 +28,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "//": "Workaround warnings from react-scripts 5.0.0: https://github.com/facebook/create-react-app/discussions/11767#discussioncomment-2092902",
+    "start": "GENERATE_SOURCEMAP=false react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

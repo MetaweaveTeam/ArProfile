@@ -1,5 +1,5 @@
 import CancelIcon from '@mui/icons-material/Cancel';
-import {arweave} from '../api';
+// import {arweave} from '../api';
 
 import TwitterIcon from '@mui/icons-material/Twitter';
 import InstagramIcon from '@mui/icons-material/Instagram';
@@ -19,38 +19,43 @@ import {
 import { T_jwk, T_profile } from '../types';
 import { useEffect, useState } from 'react';
 import { getProfile } from '../api';
+import Account from 'arweave-account';
 
 function Profile({jwk, disconnectWallet}: {jwk: T_jwk, disconnectWallet: () => void}) {
 
   const [profileData, setProfileData] = useState<T_profile>();
 
   useEffect(() => {
+
+    const account = new Account();
+    console.log(account.getSomething());
+
     (async () => {
       const profile = await getProfile(jwk);
       console.log(profile);
       setProfileData(profile);
     })()
-  }, [getProfile]);
+  }, [jwk]);
 
   const sendTx = async () => {
-    const tx = await arweave.createTransaction({
-      data: JSON.stringify({
-        username: "cromatikap",
-        name: "Axel",
-        bio: "Software Engineer.\nFullstack developer.\nTraveler.\nFounder of Argora.",
-        links: {
-          twitter: "cromatikap",
-          instagram: "cromatikap",
-          github: "cromatikap"
-        },
-        image: "Ukdq-mGUm9Gm0A4_K0MLepP6cbPNWmRRkBs7aNzAJz8"
-      })
-    });
-    tx.addTag('Protocol-Name', 'profile-0.1');
-    await arweave.transactions.sign(tx);
-    const response = await arweave.transactions.post(tx);
+    // const tx = await arweave.createTransaction({
+    //   data: JSON.stringify({
+    //     username: "cromatikap",
+    //     name: "Axel",
+    //     bio: "Software Engineer.\nFullstack developer.\nTraveler.\nFounder of Argora.",
+    //     links: {
+    //       twitter: "cromatikap",
+    //       instagram: "cromatikap",
+    //       github: "cromatikap"
+    //     },
+    //     image: "Ukdq-mGUm9Gm0A4_K0MLepP6cbPNWmRRkBs7aNzAJz8"
+    //   })
+    // });
+    // tx.addTag('Protocol-Name', 'profile-0.1');
+    // await arweave.transactions.sign(tx);
+    // const response = await arweave.transactions.post(tx);
 
-    console.log(response.status);
+    // console.log(response.status);
   };
 
   return(<>
