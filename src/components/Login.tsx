@@ -65,6 +65,10 @@ function Login({onClick}: {onClick?: () => void}) {
           <img src={icons.arweaveWebWallet} alt="ArConnect" />
           Arweave Wallet
         </div>
+        <div className="wallet">
+          <img src={icons.bundlr} alt="ArConnect" />
+          Bundlr
+        </div>
       </div>
   );
 }
