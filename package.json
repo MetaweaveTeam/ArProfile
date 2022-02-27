@@ -23,18 +23,12 @@
     "ethers": "^5.5.4",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-scripts": "5.0.0",
+    "react-scripts": "4.0.3",
     "react-syntax-highlighter": "^15.4.5",
     "styled-components": "^5.3.3",
     "typescript": "^4.5.5",
     "use-arconnect": "^1.0.1",
-    "web-vitals": "^2.1.4",
-    "//": "workaround for removed polyfills from webpack 5 (react-scripts 5.0.0)",
-    "buffer": "^6.0.3",
-    "crypto": "npm:crypto-browserify",
-    "stream": "npm:stream-browserify",
-    "assert": "npm:assert-browserify",
-    "zlib": "npm:zlib-browserify"
+    "web-vitals": "^2.1.4"
   },
   "scripts": {
     "//": "Workaround warnings from react-scripts 5.0.0: https://github.com/facebook/create-react-app/discussions/11767#discussioncomment-2092902",
