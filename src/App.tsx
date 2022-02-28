@@ -12,7 +12,7 @@ function App() {
         <img src={icons.metaweave} alt="logo" />
         <h1>Account</h1>
         <p>
-          An universal account protocol for your Arweave Wallet.
+          The universal and scalable account protocol for your wallet on Arweave.
         </p>
         <p>
           Permanent - Decentralized - Owned by you

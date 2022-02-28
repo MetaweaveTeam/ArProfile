@@ -81,6 +81,16 @@ function Login({onClick}: {onClick?: () => void}) {
       const currency = currencyMap["matic"];
       const provider = await providerFunc(currency);
       const bundlr = new WebBundlr("https://node1.bundlr.network", "matic", provider);
+      await bundlr.ready();
+      setJwk(bundlr.address);
+      const tags = [
+        {name: "Content-Type", value: "text/plain"},
+        {name: "test", value: "this is a tags test"}
+      ];
+      const tx = bundlr.createTransaction("this is some text data", {tags});
+      await tx.sign();
+      const result = await tx.upload();
+      console.log(result, result.data.id);
     }
   }
 
@@ -97,7 +107,7 @@ function Login({onClick}: {onClick?: () => void}) {
         </div>
         <div className="wallet" onClick={login.bundlr}>
           <img src={icons.bundlr} alt="Bundlr network" />
-          Bundlr
+          Bundlr ($MATIC)
         </div>
       </div>
   );
