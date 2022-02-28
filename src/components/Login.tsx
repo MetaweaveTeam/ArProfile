@@ -5,7 +5,7 @@ import Profile from './Profile';
 import { ArweaveWebWallet } from 'arweave-wallet-connector';
 import { WebBundlr } from "@bundlr-network/client";
 import { providers } from "ethers";
-import { Web3Provider } from "@ethersproject/providers";
+// import { Web3Provider } from "@ethersproject/providers";
 
 const arConnectPermissions = [
   "ACCESS_ADDRESS",
@@ -61,31 +61,55 @@ function Login({onClick}: {onClick?: () => void}) {
       const connectWeb3 = async (connector: any) => {
         const p = new providers.Web3Provider(connector);
         await p._ready();
-        return p;
-      }
+        return p
+    }
 
       const providerMap = {
         "MetaMask": async (c: any) => {
           if (!(window as any)?.ethereum?.isMetaMask) return;
-          return await connectWeb3((window as any).ethereum);
+          await (window as any).ethereum.enable();
+          const provider = await connectWeb3((window as any).ethereum);
+          const chainId = `0x${c.chainId.toString(16)}`
+          try { // additional logic for requesting a chain switch and conditional chain add.
+            await (window as any).ethereum.request({
+              method: 'wallet_switchEthereumChain',
+              params: [{ chainId }],
+            })
+          } catch (e: any) {
+            if (e.code === 4902) {
+              await (window as any).ethereum.request({
+                method: 'wallet_addEthereumChain',
+                params: [{
+                  chainId, rpcUrls: c.rpcUrls, chainName: c.chainName
+                }],
+              });
+            }
+          }
+          return provider;
         }
       }
       
       const currencyMap = {
         "matic": {
           providers: ["MetaMask"],
+          opts: {
+            chainId: 137,
+            chainName: 'Polygon Mainnet',
+            rpcUrls: ["https://polygon-rpc.com"],
+          },
         },
       }
 
       const providerFunc = providerMap["MetaMask"];
       const currency = currencyMap["matic"];
-      const provider = await providerFunc(currency);
+      const provider = await providerFunc(currency.opts);
       const bundlr = new WebBundlr("https://node1.bundlr.network", "matic", provider);
+      console.log("bundlr", bundlr);
       await bundlr.ready();
       setJwk(bundlr.address);
       const tags = [
-        {name: "Content-Type", value: "text/plain"},
-        {name: "test", value: "this is a tags test"}
+        {name: "Protocol-Name", value: "Account-0.1"},
+        {name: "handle", value: "cromatikap"}
       ];
       const tx = bundlr.createTransaction("this is some text data", {tags});
       await tx.sign();
