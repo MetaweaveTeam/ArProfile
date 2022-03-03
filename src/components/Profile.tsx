@@ -13,7 +13,7 @@ import {
 } from '../static/styles/Profile';
 import { T_jwk, T_profile, T_walletName } from '../types';
 import { useEffect, useState } from 'react';
-import { Transaction, getProfile } from '../api';
+import { getProfile } from '../api';
 import Account from 'arweave-account';
 import EditProfileModale from './EditProfileModal';
 
@@ -35,47 +35,20 @@ function Profile({jwk, walletName, disconnectWallet}: {jwk: T_jwk, walletName: T
     })()
   }, [jwk, walletName]);
 
-  const sendTx = async () => {
-    setIsLoading(true);
-    let tx = new Transaction(walletName);
-    const response = await tx.broadcast(JSON.stringify(
-      {
-        username: "cromatikap",
-        name: "Axel",
-        bio: "Software Engineer.\nFullstack developer.\nTraveler.\nFounder of Argora.",
-        links: {
-          twitter: "cromatikap",
-          instagram: "cromatikap",
-          github: "cromatikap"
-        },
-        image: "Ukdq-mGUm9Gm0A4_K0MLepP6cbPNWmRRkBs7aNzAJz8"
-      }),
-      [
-        {name: "Protocol-Name", value: "Account-0.1"},
-        {name: "handle", value: "cromatikap"}
-      ]
-    );
-    console.log(response);
-    setIsLoading(false);
-  };
-
   return(<>
-    <EditProfileModale />
+    <EditProfileModale walletName={walletName} />
 
     <div onClick={disconnectWallet}>
       <MdOutlineCancel /><span className="text">Logout</span>
     </div>
-    You are connected!
-    {isLoading ? <>Sending tx...</> : <button onClick={sendTx}>send tx</button>}
 
     <hr />
 
     <BoxVertoID>
       {profileData && profileData.image 
-      ? <AvatarS src={`https://arweave.net/${profileData.image}`} sx={{ width: 200, height: 200 }} />
-      : <AvatarS sx={{ width: 200, height: 200 }}>{
-        profileData ? profileData.username.slice(0,2) : jwk.slice(0,2)
-      }</AvatarS>}
+        ? <AvatarS src={`https://arweave.net/${profileData.image}`} sx={{ width: 200, height: 200 }} />
+        : <AvatarS sx={{ width: 200, height: 200 }}>{profileData ? profileData.username.slice(0,2) : jwk.slice(0,2)}</AvatarS>
+      }
       <VertoIDinfo>
         {profileData && <Name>{profileData.name}</Name>}
         <UserAddr href={`https://viewblock.io/arweave/address/${jwk}`} target="_blank" rel="noreferrer">

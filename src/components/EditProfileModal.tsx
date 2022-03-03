@@ -1,7 +1,37 @@
+import { useState } from 'react';
+import { T_profile, T_walletName } from '../types';
+import { Transaction } from '../api';
 import { Modal, Text, Input, Row, Checkbox, Button, Textarea } from '@nextui-org/react';
 import { FaDiscord, FaTwitter, FaInstagram, FaFacebook, FaGithub } from 'react-icons/fa';
 
-function EditProfileModale() {
+function EditProfileModale({walletName}: {walletName: T_walletName}) {
+  const [profileData, setProfileData] = useState<T_profile>();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const save = async () => {
+    setIsLoading(true);
+    let tx = new Transaction(walletName);
+    const response = await tx.broadcast(JSON.stringify(
+      {
+        username: "cromatikap",
+        name: "Axel",
+        bio: "Software Engineer.\nFullstack developer.\nTraveler.\nFounder of Argora.",
+        links: {
+          twitter: "cromatikap",
+          instagram: "cromatikap",
+          github: "cromatikap"
+        },
+        image: "Ukdq-mGUm9Gm0A4_K0MLepP6cbPNWmRRkBs7aNzAJz8"
+      }),
+      [
+        {name: "Protocol-Name", value: "Account-0.1"},
+        {name: "handle", value: "cromatikap"}
+      ]
+    );
+    console.log(response);
+    setIsLoading(false);
+  };
+
   return(<>
     <Modal
       closeButton
@@ -103,9 +133,12 @@ function EditProfileModale() {
         <Button auto flat color="error">
         Close
         </Button>
-        <Button auto>
-          Save
-        </Button>
+        {isLoading 
+          ? <>Saving...</>
+          : <Button auto onClick={save}>
+              Save
+            </Button>
+        }
       </Modal.Footer>
     </Modal>
   </>);
