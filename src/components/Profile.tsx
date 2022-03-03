@@ -16,16 +16,18 @@ import {
   UserSocial,
   VertoIDinfo,
 } from '../static/styles/Profile';
-import { T_jwk, T_profile } from '../types';
+import { T_jwk, T_profile, T_walletName } from '../types';
 import { useEffect, useState } from 'react';
-import { getProfile } from '../api';
+import { Transaction, getProfile } from '../api';
 import Account from 'arweave-account';
 
-function Profile({jwk, disconnectWallet}: {jwk: T_jwk, disconnectWallet: () => void}) {
+function Profile({jwk, walletName, disconnectWallet}: {jwk: T_jwk, walletName: T_walletName, disconnectWallet: () => void}) {
 
   const [profileData, setProfileData] = useState<T_profile>();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    console.log("walletName", walletName);
 
     const account = new Account();
     console.log(account.getSomething());
@@ -35,27 +37,30 @@ function Profile({jwk, disconnectWallet}: {jwk: T_jwk, disconnectWallet: () => v
       console.log(profile);
       setProfileData(profile);
     })()
-  }, [jwk]);
+  }, [jwk, walletName]);
 
   const sendTx = async () => {
-    // const tx = await arweave.createTransaction({
-    //   data: JSON.stringify({
-    //     username: "cromatikap",
-    //     name: "Axel",
-    //     bio: "Software Engineer.\nFullstack developer.\nTraveler.\nFounder of Argora.",
-    //     links: {
-    //       twitter: "cromatikap",
-    //       instagram: "cromatikap",
-    //       github: "cromatikap"
-    //     },
-    //     image: "Ukdq-mGUm9Gm0A4_K0MLepP6cbPNWmRRkBs7aNzAJz8"
-    //   })
-    // });
-    // tx.addTag('Protocol-Name', 'profile-0.1');
-    // await arweave.transactions.sign(tx);
-    // const response = await arweave.transactions.post(tx);
-
-    // console.log(response.status);
+    setIsLoading(true);
+    let tx = new Transaction(walletName);
+    const response = await tx.broadcast(JSON.stringify(
+      {
+        username: "cromatikap",
+        name: "Axel",
+        bio: "Software Engineer.\nFullstack developer.\nTraveler.\nFounder of Argora.",
+        links: {
+          twitter: "cromatikap",
+          instagram: "cromatikap",
+          github: "cromatikap"
+        },
+        image: "Ukdq-mGUm9Gm0A4_K0MLepP6cbPNWmRRkBs7aNzAJz8"
+      }),
+      [
+        {name: "Protocol-Name", value: "Account-0.1"},
+        {name: "handle", value: "cromatikap"}
+      ]
+    );
+    console.log(response);
+    setIsLoading(false);
   };
 
   return(<>
@@ -63,7 +68,7 @@ function Profile({jwk, disconnectWallet}: {jwk: T_jwk, disconnectWallet: () => v
       <CancelIcon /><span className="text">Logout</span>
     </div>
     You are connected!
-    <button onClick={sendTx}>send tx</button>
+    {isLoading ? <>Sending tx...</> : <button onClick={sendTx}>send tx</button>}
 
     <hr />
 

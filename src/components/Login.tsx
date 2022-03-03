@@ -5,6 +5,7 @@ import Profile from './Profile';
 import { ArweaveWebWallet } from 'arweave-wallet-connector';
 import { WebBundlr } from "@bundlr-network/client";
 import { providers } from "ethers";
+import { T_walletName } from '../types';
 // import { Web3Provider } from "@ethersproject/providers";
 
 const arConnectPermissions = [
@@ -22,6 +23,7 @@ webWallet.setUrl('arweave.app');
 function Login({onClick}: {onClick?: () => void}) {
   const arConnect = useArConnect();
   const [jwk, setJwk] = useState<string | undefined>(undefined);
+  const [walletName, setWalletName] = useState<T_walletName>();
 
   useEffect(() => {
     if (!arConnect) return;
@@ -48,6 +50,7 @@ function Login({onClick}: {onClick?: () => void}) {
       try {
         await arConnect.connect(arConnectPermissions);
         setJwk(await arConnect.getActiveAddress());
+        setWalletName("arconnect");
       } catch {
         alert("Error: Could not connect to ArConnect");
       }
@@ -56,13 +59,14 @@ function Login({onClick}: {onClick?: () => void}) {
       await webWallet.connect();
       const wallet = await webWallet.namespaces.arweaveWallet;
       setJwk(await wallet.getActiveAddress());
+      setWalletName("webwallet");
     },
     bundlr: async () => {
       const connectWeb3 = async (connector: any) => {
         const p = new providers.Web3Provider(connector);
         await p._ready();
         return p
-    }
+      }
 
       const providerMap = {
         "MetaMask": async (c: any) => {
@@ -107,19 +111,21 @@ function Login({onClick}: {onClick?: () => void}) {
       console.log("bundlr", bundlr);
       await bundlr.ready();
       setJwk(bundlr.address);
-      const tags = [
-        {name: "Protocol-Name", value: "Account-0.1"},
-        {name: "handle", value: "cromatikap"}
-      ];
-      const tx = bundlr.createTransaction("this is some text data", {tags});
-      await tx.sign();
-      const result = await tx.upload();
-      console.log(result, result.data.id);
+      setWalletName("bundlr");
+
+      // const tags = [
+      //   {name: "Protocol-Name", value: "Account-0.1"},
+      //   {name: "handle", value: "cromatikap"}
+      // ];
+      // const tx = bundlr.createTransaction("this is some text data", {tags});
+      // await tx.sign();
+      // const result = await tx.upload();
+      // console.log(result, result.data.id);
     }
   }
 
-  return(jwk
-    ? <Profile jwk={jwk} disconnectWallet={disconnectWallet}/>
+  return(jwk && walletName
+    ? <Profile jwk={jwk} walletName={walletName} disconnectWallet={disconnectWallet}/>
     : <div className="connection">
         <div className="wallet" onClick={login.arconnect}>
           <img src={icons.arconnect} alt="ArConnect" />
