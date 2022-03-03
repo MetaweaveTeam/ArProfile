@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { T_profile, T_walletName } from '../types';
 import { Transaction } from '../api';
-import { Modal, Text, Input, Row, Checkbox, Button, Textarea } from '@nextui-org/react';
+import { Modal, Text, Input, Row, Checkbox, Button, Textarea, Loading } from '@nextui-org/react';
 import { FaDiscord, FaTwitter, FaInstagram, FaFacebook, FaGithub } from 'react-icons/fa';
 
-function EditProfileModale({walletName}: {walletName: T_walletName}) {
+function EditProfileModale({walletName, isOpen, hasClosed}: {walletName: T_walletName, isOpen: boolean, hasClosed: () => void}) {
   const [profileData, setProfileData] = useState<T_profile>();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -36,7 +36,8 @@ function EditProfileModale({walletName}: {walletName: T_walletName}) {
     <Modal
       closeButton
       aria-labelledby="Edit profile"
-      open={true}
+      open={isOpen}
+      onClose={hasClosed}
     >
       <Modal.Header>
         <Text id="modal-title" size={18}>
@@ -133,12 +134,9 @@ function EditProfileModale({walletName}: {walletName: T_walletName}) {
         <Button auto flat color="error">
         Close
         </Button>
-        {isLoading 
-          ? <>Saving...</>
-          : <Button auto onClick={save}>
-              Save
-            </Button>
-        }
+        <Button onClick={save} css={{ px: '$13' }}>
+          {isLoading ? <Loading color="white" size="sm" /> : 'Save'}
+        </Button>
       </Modal.Footer>
     </Modal>
   </>);

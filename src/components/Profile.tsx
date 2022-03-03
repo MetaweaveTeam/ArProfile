@@ -1,5 +1,7 @@
-import { MdOutlineCancel } from 'react-icons/md';
+import { AiOutlinePoweroff } from 'react-icons/ai';
+import { FiEdit } from 'react-icons/fi';
 import { FaTwitter, FaInstagram, FaFacebook, FaGithub } from 'react-icons/fa';
+import {Button, Grid} from '@nextui-org/react';
 
 import {
   AvatarS,
@@ -21,6 +23,7 @@ function Profile({jwk, walletName, disconnectWallet}: {jwk: T_jwk, walletName: T
 
   const [profileData, setProfileData] = useState<T_profile>();
   const [isLoading, setIsLoading] = useState(false);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   useEffect(() => {
     console.log("walletName", walletName);
@@ -36,16 +39,15 @@ function Profile({jwk, walletName, disconnectWallet}: {jwk: T_jwk, walletName: T
   }, [jwk, walletName]);
 
   return(<>
-    <EditProfileModale walletName={walletName} />
+    <EditProfileModale walletName={walletName} isOpen={modalIsOpen} hasClosed={() => setModalIsOpen(false)} />
 
-    <div onClick={disconnectWallet}>
-      <MdOutlineCancel /><span className="text">Logout</span>
-    </div>
-
-    <hr />
+    <Grid.Container gap={2} justify="space-between">
+      <Button auto onClick={disconnectWallet} icon={<AiOutlinePoweroff size={18} />} color="error" />
+      <Button auto onClick={() => setModalIsOpen(true)} icon={<FiEdit size={18} />} color="gradient">Edit Profile</Button>
+    </Grid.Container>
 
     <BoxVertoID>
-      {profileData && profileData.image 
+      {profileData && profileData.image
         ? <AvatarS src={`https://arweave.net/${profileData.image}`} sx={{ width: 200, height: 200 }} />
         : <AvatarS sx={{ width: 200, height: 200 }}>{profileData ? profileData.username.slice(0,2) : jwk.slice(0,2)}</AvatarS>
       }
