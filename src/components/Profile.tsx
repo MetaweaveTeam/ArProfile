@@ -1,10 +1,5 @@
-import CancelIcon from '@mui/icons-material/Cancel';
-// import {arweave} from '../api';
-
-import TwitterIcon from '@mui/icons-material/Twitter';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import GitHubIcon from '@mui/icons-material/GitHub';
+import { MdOutlineCancel } from 'react-icons/md';
+import { FaTwitter, FaInstagram, FaFacebook, FaGithub } from 'react-icons/fa';
 
 import {
   AvatarS,
@@ -20,6 +15,7 @@ import { T_jwk, T_profile, T_walletName } from '../types';
 import { useEffect, useState } from 'react';
 import { Transaction, getProfile } from '../api';
 import Account from 'arweave-account';
+import EditProfileModale from './EditProfileModal';
 
 function Profile({jwk, walletName, disconnectWallet}: {jwk: T_jwk, walletName: T_walletName, disconnectWallet: () => void}) {
 
@@ -64,8 +60,10 @@ function Profile({jwk, walletName, disconnectWallet}: {jwk: T_jwk, walletName: T
   };
 
   return(<>
+    <EditProfileModale />
+
     <div onClick={disconnectWallet}>
-      <CancelIcon /><span className="text">Logout</span>
+      <MdOutlineCancel /><span className="text">Logout</span>
     </div>
     You are connected!
     {isLoading ? <>Sending tx...</> : <button onClick={sendTx}>send tx</button>}
@@ -92,16 +90,16 @@ function Profile({jwk, walletName, disconnectWallet}: {jwk: T_jwk, walletName: T
           <Bio>{profileData.bio}</Bio>
           {profileData.links.twitter && 
           <UserSocial href={`https://twitter.com/${profileData.links.twitter}`} target="_blank" rel="noreferrer">
-            <TwitterIcon fontSize="medium" />
+            <FaTwitter size={25} />
           </UserSocial>}
           {profileData.links.instagram && <UserSocial href={`https://instagram.com/${profileData.links.instagram}`} target="_blank" rel="noreferrer">
-            <InstagramIcon fontSize="medium" />
+            <FaInstagram size={25} />
           </UserSocial>}
           {profileData.links.github && <UserSocial href={`https://github.com/${profileData.links.github}`} target="_blank" rel="noreferrer">
-            <GitHubIcon fontSize="medium" />
+            <FaGithub size={25} />
           </UserSocial>}
           {profileData.links.facebook && <UserSocial href={`https://facebook.com/${profileData.links.facebook}`} target="_blank" rel="noreferrer">
-            <FacebookIcon fontSize="medium" />
+            <FaFacebook size={25} />
           </UserSocial>}
         </DetailsS>}
       </VertoIDinfo>
