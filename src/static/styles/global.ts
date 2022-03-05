@@ -7,8 +7,11 @@ const GlobalStyles = createGlobalStyle`
   }
 
   a {
-    color: inherit;
+    color: rgb(238, 22, 173);
     text-decoration: inherit;
+  }
+  a:hover {
+    color: rgb(248, 23, 182);
   }
 `;
 

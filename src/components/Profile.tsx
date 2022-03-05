@@ -47,8 +47,8 @@ function Profile({jwk, walletName, disconnectWallet}: {jwk: T_jwk, walletName: T
         <EditProfileModale walletName={walletName} isOpen={modalIsOpen} hasClosed={() => setModalIsOpen(false)} />
 
         <Grid.Container gap={2} justify="space-between">
-          <Button auto onClick={disconnectWallet} icon={<AiOutlinePoweroff size={18} />} color="error" />
-          <Button auto onClick={() => setModalIsOpen(true)} icon={<FiEdit size={18} />} color="gradient">Edit Profile</Button>
+          <Button auto onClick={disconnectWallet} icon={<AiOutlinePoweroff size={18} />} color="error">Logout</Button>
+          <Button auto onClick={() => setModalIsOpen(true)} iconRight={<FiEdit size={18} />} color="gradient">Edit Profile</Button>
         </Grid.Container>
 
         <BoxVertoID>
