@@ -46,10 +46,11 @@ const Body = ({syntaxTheme}: {syntaxTheme: any}) =>
         npm install arweave-account
       </SyntaxHighlighter>
       <SyntaxHighlighter language="javascript" style={syntaxTheme}>
-        {`import { Account } from 'arweave-account'
+        {`import Account from 'arweave-account'
 
-Account.get(jwk); // Get Account profile
-Account.search(handle); // return array of users`}
+const account = new Account();
+await account.get(jwk); // Get Account profile
+await account.search(handle); // return array of users`}
       </SyntaxHighlighter>
     </main>
   </div>);

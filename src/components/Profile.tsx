@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { AiOutlinePoweroff } from 'react-icons/ai';
 import { FiEdit } from 'react-icons/fi';
 import { FaTwitter, FaInstagram, FaFacebook, FaGithub } from 'react-icons/fa';
@@ -13,10 +14,11 @@ import {
   UserSocial,
   VertoIDinfo,
 } from '../static/styles/Profile';
+
 import { T_jwk, T_profile, T_walletName } from '../types';
-import { useEffect, useState } from 'react';
 import { getProfile } from '../api';
-import Account from 'arweave-account';
+import Account from '../arweave-account/lib';
+
 import EditProfileModale from './EditProfileModal';
 
 function Profile({jwk, walletName, disconnectWallet}: {jwk: T_jwk, walletName: T_walletName, disconnectWallet: () => void}) {

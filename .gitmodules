@@ -1,0 +1,3 @@
+[submodule "src/arweave-account"]
+	path = src/arweave-account
+	url = git@github.com:MetaweaveTeam/arweave-account.git
