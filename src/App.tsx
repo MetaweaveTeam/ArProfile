@@ -9,7 +9,7 @@ import {GlobalStyles} from './static/styles/global';
 import { useState } from 'react';
 import ctx from './utils/ctx';
 import { Grid } from '@nextui-org/react';
-import {ImProfile} from 'react-icons/all';
+import {ImProfile, IoMdWallet, BsPatchQuestion, BsCodeSquare, BsCodeSlash} from 'react-icons/all';
 
 const Body = ({syntaxTheme}: {syntaxTheme: any}) =>
   (<div className="App">
@@ -23,11 +23,11 @@ const Body = ({syntaxTheme}: {syntaxTheme: any}) =>
     </header>
     <main>
       <Grid.Container gap={2} justify="space-between" alignItems="center">
-        <h3>Access</h3>
+        <h3><IoMdWallet />Access</h3>
         <ThemeSwitch />
       </Grid.Container>
       <Login />
-      <h3>What is Account?</h3>
+      <h3><BsPatchQuestion />What is Account?</h3>
       <p>Arweave native protocol</p>
       <p>Scalable</p>
       <p>Universal</p>
@@ -37,7 +37,7 @@ const Body = ({syntaxTheme}: {syntaxTheme: any}) =>
         Universal and scalable account protocol for your wallet on Arweave.
         Permanent - Decentralized - Owned by you
       </p>
-      <h3>Developers</h3>
+      <h3><BsCodeSlash />Buidlers</h3>
       <p>The current UI you're browsing now makes the Account protocol permanently accessible, immutable and reusable as you can simply redirect to this permadapp for them to edit their accounts.</p>
       <p>Account protocol is a simple transaction containing the latest data state. A wallet key is attached to its own latest write with the tag Protocol-Name: 'Account-{'<version>'}'</p>
       <SyntaxHighlighter language="shell" style={syntaxTheme}>

@@ -14,7 +14,15 @@ header img {
 
 h1 {font-size: calc(3rem + 50*(100vw - 280px)/1520);}
 h2 {font-size: calc(1rem + 30*(100vw - 280px)/1520);}
-h3 {font-size: xx-large; padding-top: 100px;}
+h3 {
+  font-size: xx-large;
+  padding-top: 100px;
+  display: flex;
+  align-items: center;
+}
+h3>svg {
+  padding-right: 15px;
+}
 
 p {
   font-size: calc(1rem + 6*(100vw - 280px)/1520);

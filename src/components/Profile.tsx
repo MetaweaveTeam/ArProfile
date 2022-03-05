@@ -39,7 +39,8 @@ function Profile({jwk, walletName, disconnectWallet}: {jwk: T_jwk, walletName: T
     })()
   }, [jwk, walletName]);
 
-  return(isLoading
+  return(
+    <div className='gradient-border' style={{padding: '5px'}}>{isLoading
     ? <Grid.Container gap={1} justify="center">
         <Loading size="xl" css={{padding: '$24'}} />
       </Grid.Container>
@@ -84,7 +85,8 @@ function Profile({jwk, walletName, disconnectWallet}: {jwk: T_jwk, walletName: T
             </DetailsS>}
           </VertoIDinfo>
         </BoxVertoID>
-      </>
+      </>}
+    </div>
   );
 }
 
