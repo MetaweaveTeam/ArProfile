@@ -17,7 +17,7 @@ import {
 
 import { T_jwk, T_profile, T_walletName } from '../types';
 import { getProfile } from '../api';
-import Account from '../arweave-account/lib';
+import Account from 'arweave-account';
 
 import EditProfileModale from './EditProfileModal';
 
@@ -27,11 +27,12 @@ function Profile({jwk, walletName, disconnectWallet}: {jwk: T_jwk, walletName: T
   const [isLoading, setIsLoading] = useState(true);
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
+  const account = new Account();
+
   useEffect(() => {
     console.log("walletName", walletName);
 
-    const account = new Account();
-    console.log(account.getSomething());
+    console.log(account.getSomething(jwk));
 
     (async () => {
       const profile = await getProfile(jwk);
