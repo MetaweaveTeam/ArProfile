@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useContext, useEffect, useState} from 'react';
 import useArConnect from 'use-arconnect';
 import { icons } from '../static';
 import Profile from './Profile';
@@ -7,6 +7,7 @@ import { WebBundlr } from "@bundlr-network/client";
 import { providers } from "ethers";
 import { T_walletName } from '../types';
 import {Grid, Loading} from '@nextui-org/react';
+import ctx from '../utils/ctx';
 
 // import { Web3Provider } from "@ethersproject/providers";
 
@@ -23,6 +24,7 @@ const webWallet = new ArweaveWebWallet({
 webWallet.setUrl('arweave.app');
 
 function Login({onClick}: {onClick?: () => void}) {
+  const {theme} = useContext(ctx);
   const arConnect = useArConnect();
   const [jwk, setJwk] = useState<string | undefined>(undefined);
   const [walletName, setWalletName] = useState<T_walletName>();
@@ -146,7 +148,7 @@ function Login({onClick}: {onClick?: () => void}) {
           await login.arweaveWebWallet();
           setIsLoading(false);
         }}>
-          <img src={icons.arweaveWebWallet} alt="arweave.app" />
+          <img src={theme ? icons.arweaveWebWallet.dark : icons.arweaveWebWallet.light} alt="arweave.app" />
           <h4>arweave.app</h4>
         </div>
       </div>);

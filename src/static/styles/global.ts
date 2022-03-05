@@ -7,7 +7,7 @@ const GlobalStyles = createGlobalStyle`
   }
 
   a {
-    color: rgb(238, 22, 173);
+    color: ${({theme}) => theme.userAction};
     text-decoration: inherit;
   }
   a:hover {
@@ -45,6 +45,14 @@ const GlobalStyles = createGlobalStyle`
     100% {
       background-position: 0% 50%;
     }
+  }
+
+  .wallet {
+    border: 1px solid ${({theme}) => theme.text};
+    background-color: ${({theme}) => theme.bodyBackground};
+  }
+  .wallet:hover {
+    border: 1px solid ${({theme}) => theme.userAction};
   }
 `;
 
