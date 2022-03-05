@@ -6,6 +6,8 @@ import { ArweaveWebWallet } from 'arweave-wallet-connector';
 import { WebBundlr } from "@bundlr-network/client";
 import { providers } from "ethers";
 import { T_walletName } from '../types';
+import {Grid, Loading} from '@nextui-org/react';
+
 // import { Web3Provider } from "@ethersproject/providers";
 
 const arConnectPermissions = [
@@ -24,6 +26,7 @@ function Login({onClick}: {onClick?: () => void}) {
   const arConnect = useArConnect();
   const [jwk, setJwk] = useState<string | undefined>(undefined);
   const [walletName, setWalletName] = useState<T_walletName>();
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (!arConnect) return;
@@ -115,23 +118,38 @@ function Login({onClick}: {onClick?: () => void}) {
     }
   }
 
-  return(jwk && walletName
+  return(isLoading 
+    ? <Grid.Container gap={1} justify="center">
+        <Loading size="xl" css={{padding: '$24'}} />
+      </Grid.Container>
+    : jwk && walletName
     ? <Profile jwk={jwk} walletName={walletName} disconnectWallet={disconnectWallet}/>
     : <div className="connection">
-        <div className="wallet" onClick={login.arconnect}>
+        <div className="wallet" onClick={async () => {
+          setIsLoading(true);
+          await login.arconnect();
+          setIsLoading(false);
+        }}>
           <img src={icons.arconnect} alt="ArConnect" />
           <h4>ArConnect</h4>
         </div>
-        <div className="wallet" onClick={login.bundlr}>
+        <div className="wallet" onClick={async () => {
+          setIsLoading(true);
+          await login.bundlr();
+          setIsLoading(false);
+        }}>
           <img src={icons.bundlr} alt="Bundlr network" />
           <h4>Bundlr ($MATIC)</h4>
         </div>
-        <div className="wallet" onClick={login.arweaveWebWallet}>
+        <div className="wallet" onClick={async () => {
+          setIsLoading(true);
+          await login.arweaveWebWallet();
+          setIsLoading(false);
+        }}>
           <img src={icons.arweaveWebWallet} alt="arweave.app" />
           <h4>arweave.app</h4>
         </div>
-      </div>
-  );
+      </div>);
 }
 
 export default Login;

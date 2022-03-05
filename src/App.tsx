@@ -18,7 +18,7 @@ const Body = ({syntaxTheme}: {syntaxTheme: any}) =>
       {/* <img src={icons.metaweave} alt="logo" /> */}
       <ImProfile size={230} />
       <h2>
-        Your profile on the <a href="https://arweave.org" target="_blank" rel="noreferrer">permaweb</a>.
+        Your identity on the <a href="https://arweave.org" target="_blank" rel="noreferrer">permaweb</a>.
       </h2>
     </header>
     <main>
