@@ -112,15 +112,6 @@ function Login({onClick}: {onClick?: () => void}) {
       await bundlr.ready();
       setJwk(bundlr.address);
       setWalletName("bundlr");
-
-      // const tags = [
-      //   {name: "Protocol-Name", value: "Account-0.1"},
-      //   {name: "handle", value: "cromatikap"}
-      // ];
-      // const tx = bundlr.createTransaction("this is some text data", {tags});
-      // await tx.sign();
-      // const result = await tx.upload();
-      // console.log(result, result.data.id);
     }
   }
 
@@ -129,15 +120,15 @@ function Login({onClick}: {onClick?: () => void}) {
     : <div className="connection">
         <div className="wallet" onClick={login.arconnect}>
           <img src={icons.arconnect} alt="ArConnect" />
-          ArConnect
-        </div>
-        <div className="wallet" onClick={login.arweaveWebWallet}>
-          <img src={icons.arweaveWebWallet} alt="arweave.app" />
-          Arweave Wallet
+          <h4>ArConnect</h4>
         </div>
         <div className="wallet" onClick={login.bundlr}>
           <img src={icons.bundlr} alt="Bundlr network" />
-          Bundlr ($MATIC)
+          <h4>Bundlr ($MATIC)</h4>
+        </div>
+        <div className="wallet" onClick={login.arweaveWebWallet}>
+          <img src={icons.arweaveWebWallet} alt="arweave.app" />
+          <h4>arweave.app</h4>
         </div>
       </div>
   );
