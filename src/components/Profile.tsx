@@ -42,7 +42,7 @@ function Profile({jwk, walletName, disconnectWallet}: {jwk: T_jwk, walletName: T
   return(
     <div className='gradient-border' style={{padding: '5px'}}>{isLoading
     ? <Grid.Container gap={1} justify="center">
-        <Loading size="xl" css={{padding: '$24'}} />
+        <Loading size="xl" css={{padding: '$24'}} color="success" />
       </Grid.Container>
     : <>
         <EditProfileModale walletName={walletName} isOpen={modalIsOpen} hasClosed={() => setModalIsOpen(false)} />
@@ -52,8 +52,9 @@ function Profile({jwk, walletName, disconnectWallet}: {jwk: T_jwk, walletName: T
           <Button auto onClick={() => setModalIsOpen(true)} iconRight={<FiEdit size={18} />} color="gradient">Edit Profile</Button>
         </Grid.Container>
 
-        <BoxVertoID>
-          {profileData && profileData.image ? <>
+        {profileData && profileData.image ? 
+        <>
+          <BoxVertoID>
             <AvatarS src={`https://arweave.net/${profileData.image}`} sx={{ width: 200, height: 200 }} />
             <VertoIDinfo>
               <Name>{profileData.name}</Name>
@@ -82,9 +83,31 @@ function Profile({jwk, walletName, disconnectWallet}: {jwk: T_jwk, walletName: T
                 </UserSocial>}
               </DetailsS>
             </VertoIDinfo>
-          </>
-          : <>Hello {`${jwk.slice(0,5)}...${jwk.slice(jwk.length-5, jwk.length)}`}</>}
-        </BoxVertoID>
+          </BoxVertoID>
+        </> : <>
+          <div style={{
+            fontSize: 'xx-large',
+            textAlign: 'center',
+            padding: '70px',
+            alignItems: 'center',
+            display: 'flex',
+            flexDirection: 'column'
+          }}>
+            <div>
+              Hello{` `}
+              <span style={{
+                fontSize: '',
+                fontFamily: 'monospace'
+              }}>
+                <a href="https://viewblock.io/" target="_blank" rel="noreferrer">
+                  {`${jwk.slice(0,5)}...${jwk.slice(jwk.length-5, jwk.length)}`}
+                </a>
+              </span>
+              {` 🙂`}
+            </div>
+            <Button onClick={() => setModalIsOpen(true)} color="success" size="xl" css={{marginTop: '30px'}}>Activate my Account</Button>
+          </div>
+        </>}
       </>}
     </div>
   );

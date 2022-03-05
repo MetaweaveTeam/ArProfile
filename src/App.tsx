@@ -9,7 +9,7 @@ import {GlobalStyles} from './static/styles/global';
 import { useState } from 'react';
 import ctx from './utils/ctx';
 import { Grid } from '@nextui-org/react';
-import {ImProfile, IoMdWallet, BsPatchQuestion, BsCodeSquare, BsCodeSlash} from 'react-icons/all';
+import {ImProfile, IoMdWallet, BsPatchQuestion, BsCodeSlash} from 'react-icons/all';
 
 const Body = ({syntaxTheme}: {syntaxTheme: any}) =>
   (<div className="App">

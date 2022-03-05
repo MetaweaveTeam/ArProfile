@@ -11,7 +11,8 @@ const GlobalStyles = createGlobalStyle`
     text-decoration: inherit;
   }
   a:hover {
-    color: rgb(248, 23, 182);
+    color: ${({theme}) => theme.text};
+    text-decoration: underline;
   }
 
   .gradient-border {
