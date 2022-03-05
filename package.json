@@ -21,12 +21,17 @@
     "arweave-globalstorage": "^0.0.6",
     "arweave-js": "^1.0.0",
     "arweave-wallet-connector": "^0.0.23",
+    "browserify-zlib": "^0.2.0",
+    "buffer": "^6.0.3",
+    "buffer-browserify": "^0.2.5",
+    "crypto-browserify": "^3.12.0",
     "ethers": "^5.5.4",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-icons": "^4.3.1",
-    "react-scripts": "4.0.3",
+    "react-scripts": "5.0.0",
     "react-syntax-highlighter": "^15.4.5",
+    "stream-browserify": "^3.0.0",
     "styled-components": "^5.3.3",
     "typescript": "^4.5.5",
     "use-arconnect": "^1.0.1",
@@ -34,8 +39,8 @@
   },
   "scripts": {
     "//": "Workaround warnings from react-scripts 5.0.0: https://github.com/facebook/create-react-app/discussions/11767#discussioncomment-2092902",
-    "start": "GENERATE_SOURCEMAP=false react-scripts start",
-    "build": "react-scripts build",
+    "start": "GENERATE_SOURCEMAP=false react-app-rewired start",
+    "build": "GENERATE_SOURCEMAP=false react-app-rewired build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -47,9 +52,11 @@
   },
   "browserslist": {
     "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
+      "chrome >= 67",
+      "edge >= 79",
+      "firefox >= 68",
+      "opera >= 54",
+      "safari >= 14"
     ],
     "development": [
       "last 1 chrome version",
@@ -60,6 +67,7 @@
   "devDependencies": {
     "@types/react-syntax-highlighter": "^13.5.2",
     "@types/styled-components": "^5.1.23",
-    "arconnect": "^0.2.9"
+    "arconnect": "^0.2.9",
+    "react-app-rewired": "^2.2.1"
   }
 }

@@ -1,6 +1,6 @@
 import {Switch} from '@nextui-org/react';
 import { useContext } from 'react';
-import {BiMoon, BiSun} from 'react-icons/all';
+import {BiMoon, BiSun} from 'react-icons/bi';
 import ctx from '../utils/ctx';
 
 function ThemeSwitch() {
