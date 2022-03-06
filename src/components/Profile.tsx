@@ -16,7 +16,7 @@ import {
 } from '../static/styles/Profile';
 
 import { T_jwk, T_profile, T_walletName } from '../types';
-import Account from '../arweave-account/lib';
+import Account from 'arweave-account';
 
 import EditProfileModale from './EditProfileModal';
 
