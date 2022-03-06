@@ -16,8 +16,7 @@ import {
 } from '../static/styles/Profile';
 
 import { T_jwk, T_profile, T_walletName } from '../types';
-import { getProfile } from '../api';
-import Account from 'arweave-account';
+import Account from '../arweave-account/lib';
 
 import EditProfileModale from './EditProfileModal';
 
@@ -26,21 +25,16 @@ function Profile({jwk, walletName, disconnectWallet}: {jwk: T_jwk, walletName: T
   const [profileData, setProfileData] = useState<T_profile>();
   const [isLoading, setIsLoading] = useState(true);
   const [modalIsOpen, setModalIsOpen] = useState(false);
-
-  const account = new Account();
-
+  
   useEffect(() => {
-    console.log("walletName", walletName);
-
-    console.log(account.getSomething(jwk));
-
     (async () => {
-      const profile = await getProfile(jwk);
+      const account = new Account();
+      const profile = await account.get(jwk);
       console.log(profile);
       setProfileData(profile);
       setIsLoading(false);
     })()
-  }, [jwk, walletName]);
+  }, [jwk]);
 
   return(
     <div className='gradient-border' style={{padding: '5px'}}>{isLoading

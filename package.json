@@ -17,7 +17,7 @@
     "@types/react": "^17.0.39",
     "@types/react-dom": "^17.0.11",
     "ardb": "^1.1.10",
-    "arweave-account": "^0.0.7",
+    "arweave-account": "^0.0.9",
     "arweave-globalstorage": "^0.0.6",
     "arweave-js": "^1.0.0",
     "arweave-wallet-connector": "^0.0.23",
