@@ -34,6 +34,7 @@ function EditProfileModale({walletName, isOpen, hasClosed}: {walletName: T_walle
 
   return(<>
     <Modal
+      preventClose
       closeButton
       aria-labelledby="Edit profile"
       open={isOpen}
@@ -51,8 +52,9 @@ function EditProfileModale({walletName, isOpen, hasClosed}: {walletName: T_walle
           fullWidth
           color="primary"
           size="lg"
-          aria-label="Name"
-          contentLeft="Name"
+          aria-label="handle"
+          placeholder="handle"
+          contentLeft="@"
         />
         <Input
           clearable
@@ -60,9 +62,8 @@ function EditProfileModale({walletName, isOpen, hasClosed}: {walletName: T_walle
           fullWidth
           color="primary"
           size="lg"
-          aria-label="handle"
-          placeholder="handle"
-          contentLeft="@"
+          aria-label="Name"
+          contentLeft="Name"
         />
         <Textarea
           aria-label="Bio"

@@ -1,4 +1,5 @@
 import Arweave from 'arweave';
+import ArweaveMultiWallet from './lib/ArweaveMultiWallet';
 import { T_walletName } from './types';
 
 const arweave = Arweave.init({
@@ -8,6 +9,8 @@ const arweave = Arweave.init({
   timeout: 20000,     // Network request timeouts in milliseconds
   logging: false,
 });
+
+const AMW = new ArweaveMultiWallet();
 
 class Transaction {
   private walletName: T_walletName;
@@ -28,7 +31,8 @@ class Transaction {
         console.log("tx", tx);
         response = {...await arweave.transactions.post(tx), txid: tx.id};
       }
-      catch{
+      catch(e){
+        console.log("catch error: ", e);
         response = null;
       }
     }
@@ -42,5 +46,6 @@ class Transaction {
 
 export {
   arweave,
-  Transaction
+  AMW,
+  Transaction,
 };
