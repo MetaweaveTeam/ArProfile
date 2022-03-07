@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { AiOutlinePoweroff } from 'react-icons/ai';
 import { FiEdit } from 'react-icons/fi';
 import { FaTwitter, FaInstagram, FaFacebook, FaGithub } from 'react-icons/fa';
-import {Button, Grid, Loading} from '@nextui-org/react';
+import {Button, Grid, Loading, Text, Spacer} from '@nextui-org/react';
 
 import {
   AvatarS,
@@ -16,7 +16,7 @@ import {
 } from '../static/styles/Profile';
 
 import { T_jwk, T_profile, T_walletName } from '../types';
-import Account from 'arweave-account';
+import Account from '../arweave-account/lib';
 
 import EditProfileModale from './EditProfileModal';
 
@@ -24,15 +24,23 @@ function Profile({jwk, walletName, disconnectWallet}: {jwk: T_jwk, walletName: T
 
   const [profileData, setProfileData] = useState<T_profile>();
   const [isLoading, setIsLoading] = useState(true);
+  const [hasFailed, setHasFailed] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   
   useEffect(() => {
     (async () => {
-      const account = new Account();
-      const profile = await account.get(jwk);
-      console.log(profile);
-      setProfileData(profile);
-      setIsLoading(false);
+      try {
+        const account = new Account();
+        const profile = await account.get(jwk);
+        console.log(profile);
+        setProfileData(profile);
+      }
+      catch {
+        setHasFailed(true);
+      }
+      finally {
+        setIsLoading(false);
+      }
     })()
   }, [jwk]);
 
@@ -41,6 +49,17 @@ function Profile({jwk, walletName, disconnectWallet}: {jwk: T_jwk, walletName: T
     ? <Grid.Container gap={1} justify="center">
         <Loading size="xl" css={{padding: '$24'}} color="success" />
       </Grid.Container>
+    : hasFailed ? <>
+        <Spacer y={3}/>
+        <Grid.Container gap={1} justify="center">
+          <Text color="error">connection lost</Text>
+        </Grid.Container>
+        <Spacer y={2}/>
+        <Grid.Container gap={1} justify="center">
+          <Button color="secondary" onClick={disconnectWallet}>Retry</Button>
+        </Grid.Container>
+        <Spacer y={3}/>
+      </>
     : <>
         <EditProfileModale walletName={walletName} isOpen={modalIsOpen} hasClosed={() => setModalIsOpen(false)} />
 
@@ -56,14 +75,9 @@ function Profile({jwk, walletName, disconnectWallet}: {jwk: T_jwk, walletName: T
             <VertoIDinfo>
               <Name>{profileData.name}</Name>
               <UserAddr href={`https://viewblock.io/arweave/address/${jwk}`} target="_blank" rel="noreferrer">
-                @{profileData.username}
+                @{profileData.handle}
               </UserAddr>
               <DetailsS>
-                <ul style={{listStyle: 'none', padding: 0, margin: 0}}>
-                  <UserAddr href={`https://viewblock.io/arweave/address/${jwk}`} target="_blank" rel="noreferrer">
-                    <li>{jwk.slice(0,5)}...{jwk.slice(jwk.length-5, jwk.length)}</li>
-                  </UserAddr>
-                </ul>
                 <Bio>{profileData.bio}</Bio>
                 {profileData.links.twitter && 
                 <UserSocial href={`https://twitter.com/${profileData.links.twitter}`} target="_blank" rel="noreferrer">

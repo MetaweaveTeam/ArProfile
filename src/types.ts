@@ -3,6 +3,8 @@ type T_txid = string;
 type T_walletName = "arconnect" | "webwallet" | "bundlr";
 
 type T_profile = {
+  jwk: T_jwk,
+  handle: string,
   username: string,
   name: string,
   bio: string,
