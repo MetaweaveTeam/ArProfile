@@ -3,34 +3,45 @@ import { T_profile, T_walletName } from '../types';
 import { Transaction } from '../api';
 import { Modal, Text, Input, Row, Checkbox, Button, Textarea, Loading } from '@nextui-org/react';
 import { FaDiscord, FaTwitter, FaInstagram, FaFacebook, FaGithub } from 'react-icons/fa';
+import {AMW} from '../api';
 
 function EditProfileModale({walletName, isOpen, hasClosed}: {walletName: T_walletName, isOpen: boolean, hasClosed: () => void}) {
   const [profileData, setProfileData] = useState<T_profile>();
   const [isLoading, setIsLoading] = useState(false);
 
+  // const save = async () => {
+  //   setIsLoading(true);
+  //   let tx = new Transaction(walletName);
+  //   const response = await tx.broadcast(JSON.stringify(
+  //     {
+  //       username: "cromatikap",
+  //       name: "Axel",
+  //       bio: "Software Engineer.\nFullstack developer.\nTraveler.\nFounder of Argora.",
+  //       links: {
+  //         twitter: "cromatikap",
+  //         instagram: "cromatikap",
+  //         github: "cromatikap"
+  //       },
+  //       image: "Ukdq-mGUm9Gm0A4_K0MLepP6cbPNWmRRkBs7aNzAJz8"
+  //     }),
+  //     [
+  //       {name: "Protocol-Name", value: "Account-0.1"},
+  //       {name: "handle", value: "cromatikap"}
+  //     ]
+  //   );
+  //   console.log(response);
+  //   setIsLoading(false);
+  // };
+
   const save = async () => {
     setIsLoading(true);
-    let tx = new Transaction(walletName);
-    const response = await tx.broadcast(JSON.stringify(
-      {
-        username: "cromatikap",
-        name: "Axel",
-        bio: "Software Engineer.\nFullstack developer.\nTraveler.\nFounder of Argora.",
-        links: {
-          twitter: "cromatikap",
-          instagram: "cromatikap",
-          github: "cromatikap"
-        },
-        image: "Ukdq-mGUm9Gm0A4_K0MLepP6cbPNWmRRkBs7aNzAJz8"
-      }),
-      [
-        {name: "Protocol-Name", value: "Account-0.1"},
-        {name: "handle", value: "cromatikap"}
-      ]
-    );
-    console.log(response);
+    const result = await AMW.write("some data test from bundlr", [
+      {name: "Protocol-Name", value: "Account-0.1"},
+      {name: "handle", value: "cromatikap-bundlr"}
+    ]);
+    console.log("save result: ", result);
     setIsLoading(false);
-  };
+  }
 
   return(<>
     <Modal

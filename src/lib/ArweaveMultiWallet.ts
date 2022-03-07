@@ -92,10 +92,10 @@ export default class ArweaveMultiWallet {
       const providerFunc = providerMap["MetaMask"];
       const currency = currencyMap["matic"];
       const provider = await providerFunc(currency.opts);
-      const bundlr = new WebBundlr("https://node1.bundlr.network", "matic", provider);
-      console.log("bundlr", bundlr);
-      await bundlr.ready();
-      return bundlr.address;
+      this.walletEngine = new WebBundlr("https://node1.bundlr.network", "matic", provider);
+      console.log("bundlr", this.walletEngine);
+      await this.walletEngine.ready();
+      return this.walletEngine.address;
     }
     else{
       this.walletName = null;
@@ -104,10 +104,22 @@ export default class ArweaveMultiWallet {
     }
   }
 
+  public async write(data: string, tags: {name: string, value: string}[]) {
+    if(this.walletName === "bundlr"){
+      const tx = this.walletEngine.createTransaction(data, {tags});
+      console.log("tx", tx);
+      await tx.sign();
+      console.log("signed");
+      const result = await tx.upload();
+      return result;
+    }
+  }
+
   public async disconnect(): Promise<void> {
-    if(this.walletName === "arconnect")
+    console.log("this.walletEnging", this.walletEngine);
+    if(this.walletName === "arconnect" || this.walletName === "webwallet")
       this.walletEngine.disconnect();
-    else if(this.walletName === "webwallet")
-      this.walletEngine.disconnect(); //doesn't work
+    
+    this.walletEngine = null;
   }
 }

@@ -20,7 +20,7 @@
     "arweave-account": "^0.0.9",
     "arweave-globalstorage": "^0.0.6",
     "arweave-js": "^1.0.0",
-    "arweave-wallet-connector": "^0.0.23",
+    "arweave-wallet-connector": "^0.0.25",
     "browserify-zlib": "^0.2.0",
     "buffer": "^6.0.3",
     "buffer-browserify": "^0.2.5",
