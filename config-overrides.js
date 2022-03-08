@@ -3,11 +3,11 @@ const webpack = require('webpack');
 module.exports = function override (config, env) {
   console.log('override')
   config.resolve.fallback = {
-    "assert": false,
-    "buffer": require.resolve("buffer"),
+    "crypto": require.resolve("crypto-browserify"),
+    "assert": require.resolve("assert/"),
     "stream": require.resolve("stream-browserify"),
+    "buffer": require.resolve("buffer"),
     "zlib": require.resolve("browserify-zlib") ,
-    "crypto": require.resolve("crypto-browserify")
   }
 
   config.plugins.push(
