@@ -6,8 +6,6 @@ import { T_walletName } from '../utils/types';
 import {Grid, Loading} from '@nextui-org/react';
 import ctx from '../utils/ctx';
 import { AMW } from '../utils/api';
-import { providers } from 'ethers';
-import { WebBundlr } from '@bundlr-network/client';
 
 function Login({onClick}: {onClick?: () => void}) {
   const {theme} = useContext(ctx);
@@ -44,63 +42,9 @@ function Login({onClick}: {onClick?: () => void}) {
       setWalletName("webwallet");
     },
     bundlr: async () => {
-      const connectWeb3 = async (connector: any) => {
-        const p = new providers.Web3Provider(connector);
-        await p._ready();
-        return p
-    }
-
-      const providerMap = {
-        "MetaMask": async (c: any) => {
-          if (!(window as any)?.ethereum?.isMetaMask) return;
-          await (window as any).ethereum.enable();
-          const provider = await connectWeb3((window as any).ethereum);
-          const chainId = `0x${c.chainId.toString(16)}`
-          try { // additional logic for requesting a chain switch and conditional chain add.
-            await (window as any).ethereum.request({
-              method: 'wallet_switchEthereumChain',
-              params: [{ chainId }],
-            })
-          } catch (e: any) {
-            if (e.code === 4902) {
-              await (window as any).ethereum.request({
-                method: 'wallet_addEthereumChain',
-                params: [{
-                  chainId, rpcUrls: c.rpcUrls, chainName: c.chainName
-                }],
-              });
-            }
-          }
-          return provider;
-        }
-      }
-      
-      const currencyMap = {
-        "matic": {
-          providers: ["MetaMask"],
-          opts: {
-            chainId: 137,
-            chainName: 'Polygon Mainnet',
-            rpcUrls: ["https://polygon-rpc.com"],
-          },
-        },
-      }
-
-      const providerFunc = providerMap["MetaMask"];
-      const currency = currencyMap["matic"];
-      const provider = await providerFunc(currency.opts);
-      const bundlr = new WebBundlr("https://node1.bundlr.network", "matic", provider);
-      console.log("bundlr", bundlr);
-      await bundlr.ready();
-      setJwk(bundlr.address);
-      const tags = [
-        {name: "Protocol-Name", value: "Account-0.1"},
-        {name: "handle", value: "cromatikap"}
-      ];
-      const tx = bundlr.createTransaction("this is some text data", {tags});
-      await tx.sign();
-      const result = await tx.upload();
-      console.log(result, result.data.id);
+      console.log("bundlr");
+      setJwk(await AMW.connect("bundlr"));
+      setWalletName("bundlr");
     }
   }
 
