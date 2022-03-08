@@ -15,7 +15,7 @@ import {
   VertoIDinfo,
 } from '../static/styles/Profile';
 
-import { T_jwk, T_profile, T_walletName } from '../types';
+import { T_jwk, T_profile, T_walletName } from '../utils/types';
 import Account from '../arweave-account/lib';
 
 import EditProfileModale from './EditProfileModal';

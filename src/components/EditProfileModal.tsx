@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { T_profile, T_walletName } from '../types';
-import { Transaction } from '../api';
+import { T_profile, T_walletName } from '../utils/types';
+import { Transaction } from '../utils/api';
 import { Modal, Text, Input, Row, Checkbox, Button, Textarea, Loading } from '@nextui-org/react';
 import { FaDiscord, FaTwitter, FaInstagram, FaFacebook, FaGithub } from 'react-icons/fa';
-import {AMW} from '../api';
+import {AMW} from '../utils/api';
 
 function EditProfileModale({walletName, isOpen, hasClosed}: {walletName: T_walletName, isOpen: boolean, hasClosed: () => void}) {
   const [profileData, setProfileData] = useState<T_profile>();

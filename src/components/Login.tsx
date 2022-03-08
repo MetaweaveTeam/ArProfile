@@ -2,10 +2,10 @@ import {useContext, useEffect, useState} from 'react';
 import useArConnect from 'use-arconnect';
 import { icons } from '../static';
 import Profile from './Profile';
-import { T_walletName } from '../types';
+import { T_walletName } from '../utils/types';
 import {Grid, Loading} from '@nextui-org/react';
 import ctx from '../utils/ctx';
-import { AMW } from '../api';
+import { AMW } from '../utils/api';
 import { providers } from 'ethers';
 import { WebBundlr } from '@bundlr-network/client';
 

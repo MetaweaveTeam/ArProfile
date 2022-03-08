@@ -1,5 +1,5 @@
 import Arweave from 'arweave';
-import ArweaveMultiWallet from './lib/ArweaveMultiWallet';
+import ArweaveMultiWallet from '../lib/ArweaveMultiWallet';
 import { T_walletName } from './types';
 
 const arweave = Arweave.init({

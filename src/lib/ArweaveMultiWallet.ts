@@ -3,7 +3,7 @@ import { providers } from "ethers";
 import { WebBundlr } from "@bundlr-network/client";
 
 import { icons } from "../static";
-import { T_jwk, T_walletName } from "../types";
+import { T_jwk, T_walletName } from "../utils/types";
 
 const arConnectPermissions = [
   "ACCESS_ADDRESS",
