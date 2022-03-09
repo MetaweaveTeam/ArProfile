@@ -29,7 +29,7 @@ function EditProfileModale({profile, isOpen, hasClosed}: {profile: T_profile | u
         {name: "handle", value: profileData.handle}
       ]);
       if(result)
-        alert("Your profile information has been saved. txid: " + result.txid);
+        alert("Your profile information has been saved. txid: "+result.txid+"\nPlease wait for miners to confirm the transaction.");
       else
         alert("something wrong happened :(");
       console.log("save result: ", result);

@@ -8,6 +8,6 @@ const icons = {
   bundlr: "https://g2meg2z22osnem5quvmli3tgdzgppevd52ijyf7kgq2gwr7ysu.arweave.net/NphDazrTpNIzsKVYtG5mHkz3kqP-ukJwX6jQ0a0f4lY/"
 }
 
-const protocolName = "Account-0.0.1"
+const protocolName = "Account-0.1"
 
 export {icons, protocolName}

@@ -11,7 +11,7 @@ function Documentation({syntaxTheme}: {syntaxTheme: any}) {
       {`import Account from 'arweave-account'
 
 const account = new Account();
-await account.get(jwk); // Get Account
+const {profile, txid, addr} = await account.get(jwk); // Get Account
 await account.search(handle); // return array of similar Accounts`}
     </SyntaxHighlighter>
   </>);

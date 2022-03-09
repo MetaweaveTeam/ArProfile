@@ -15,7 +15,7 @@ import {
   VertoIDinfo,
 } from '../static/styles/Profile';
 
-import { T_jwk, T_profile, T_walletName } from '../utils/types';
+import { T_jwk, T_profile, T_walletName, T_txid } from '../utils/types';
 import Account from '../arweave-account/lib';
 
 import EditProfileModale from './EditProfileModal';
@@ -23,20 +23,23 @@ import EditProfileModale from './EditProfileModal';
 function Profile({jwk, walletName, disconnectWallet}: {jwk: T_jwk, walletName: T_walletName, disconnectWallet: () => void}) {
 
   const [profileData, setProfileData] = useState<T_profile>();
+  const [profileTxid, setProfileTxid] = useState<T_txid>();
   const [isLoading, setIsLoading] = useState(true);
-  const [hasFailed, setHasFailed] = useState(false);
+  const [hasFailed, setHasFailed] = useState<string | false>(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   
   useEffect(() => {
     (async () => {
       try {
         const account = new Account();
-        const profile = await account.get(jwk);
-        console.log(profile);
+        const {profile, txid} = await account.get(jwk);
+        console.log("profile: ", profile);
         setProfileData(profile);
+        setProfileTxid(txid);
       }
-      catch {
-        setHasFailed(true);
+      catch (e){
+        console.log(e);
+        setHasFailed(JSON.stringify(e));
       }
       finally {
         setIsLoading(false);
@@ -52,7 +55,7 @@ function Profile({jwk, walletName, disconnectWallet}: {jwk: T_jwk, walletName: T
     : hasFailed ? <>
         <Spacer y={3}/>
         <Grid.Container gap={1} justify="center">
-          <Text color="error">connection lost</Text>
+          <Text color="error">Something wrong happened :(</Text>
         </Grid.Container>
         <Spacer y={2}/>
         <Grid.Container gap={1} justify="center">
@@ -63,8 +66,13 @@ function Profile({jwk, walletName, disconnectWallet}: {jwk: T_jwk, walletName: T
     : <>
         <EditProfileModale profile={profileData} isOpen={modalIsOpen} hasClosed={() => setModalIsOpen(false)} />
 
-        <Grid.Container gap={2} justify="space-between">
+        <Grid.Container gap={3} justify="space-between" alignItems='center'>
           <Button auto onClick={disconnectWallet} icon={<AiOutlinePoweroff size={18} />} color="error">Logout</Button>
+          {profileTxid && 
+            <a href={`https://viewblock.io/arweave/tx/${profileTxid}`} target="_blank" rel="noreferrer" style={{fontFamily: "monospace", fontSize: "larger"}}>
+              txid: {profileTxid}
+            </a>
+          }
           <Button auto onClick={() => setModalIsOpen(true)} iconRight={<FiEdit size={18} />} color="gradient">Edit Profile</Button>
         </Grid.Container>
 
