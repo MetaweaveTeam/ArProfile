@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { AiOutlinePoweroff } from 'react-icons/ai';
 import { FiEdit } from 'react-icons/fi';
-import { FaTwitter, FaInstagram, FaFacebook, FaGithub } from 'react-icons/fa';
+import { FaTwitter, FaInstagram, FaFacebook, FaGithub, FaDiscord } from 'react-icons/fa';
 import {Button, Grid, Loading, Text, Spacer} from '@nextui-org/react';
 
 import {
@@ -93,15 +93,18 @@ function Profile({jwk, walletName, disconnectWallet}: {jwk: T_jwk, walletName: T
                 <UserSocial href={`https://twitter.com/${profileData.links.twitter}`} target="_blank" rel="noreferrer">
                   <FaTwitter size={25} />
                 </UserSocial>}
-                {profileData.links.instagram && <UserSocial href={`https://instagram.com/${profileData.links.instagram}`} target="_blank" rel="noreferrer">
-                  <FaInstagram size={25} />
-                </UserSocial>}
                 {profileData.links.github && <UserSocial href={`https://github.com/${profileData.links.github}`} target="_blank" rel="noreferrer">
                   <FaGithub size={25} />
+                </UserSocial>}
+                {profileData.links.instagram && <UserSocial href={`https://instagram.com/${profileData.links.instagram}`} target="_blank" rel="noreferrer">
+                  <FaInstagram size={25} />
                 </UserSocial>}
                 {profileData.links.facebook && <UserSocial href={`https://facebook.com/${profileData.links.facebook}`} target="_blank" rel="noreferrer">
                   <FaFacebook size={25} />
                 </UserSocial>}
+                {profileData.links.discord && <span>
+                  <FaDiscord size={25} /> {profileData.links.discord}
+                </span>}
               </DetailsS>
             </VertoIDinfo>
           </BoxVertoID>
@@ -120,7 +123,7 @@ function Profile({jwk, walletName, disconnectWallet}: {jwk: T_jwk, walletName: T
                 fontSize: '',
                 fontFamily: 'monospace'
               }}>
-                <a href="https://viewblock.io/" target="_blank" rel="noreferrer">
+                <a href={`https://viewblock.io/arweave/address/${jwk}`} target="_blank" rel="noreferrer">
                   {`${jwk.slice(0,5)}...${jwk.slice(jwk.length-5, jwk.length)}`}
                 </a>
               </span>
