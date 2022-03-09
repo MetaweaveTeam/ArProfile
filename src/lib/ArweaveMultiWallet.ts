@@ -125,12 +125,19 @@ export default class ArweaveMultiWallet {
       }
     }
     else if(this.walletName === "bundlr"){
-      const tx = this.walletEngine.createTransaction(data, {tags});
-      console.log("tx", tx);
-      await tx.sign();
-      console.log("signed");
-      const result = await tx.upload();
-      return result;
+      try{
+        const tx = this.walletEngine.createTransaction(data, {tags});
+        console.log("tx", tx);
+        await tx.sign();
+        console.log("signed");
+        const result = await tx.upload();
+        console.log("result", result);
+        return {...result, txid: result.data.id};
+      }
+      catch(e){
+        console.log("catch error: ", e);
+        return null;
+      }
     }
   }
 
