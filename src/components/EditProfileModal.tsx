@@ -3,14 +3,14 @@ import { T_profile } from '../utils/types';
 import { Modal, Text, Input, Row, Checkbox, Button, Textarea, Loading } from '@nextui-org/react';
 import { FaDiscord, FaTwitter, FaInstagram, FaFacebook, FaGithub } from 'react-icons/fa';
 import {AMW} from '../utils/api';
+import { protocolName } from '../static';
 
 function EditProfileModale({profile, isOpen, hasClosed}: {profile: T_profile | undefined, isOpen: boolean, hasClosed: () => void}) {
   const [profileData, setProfileData] = useState<T_profile>({
     jwk: "",
-    handle: "",
     links: {},
   });
-
+  const [handleError, setHandleError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -19,13 +19,23 @@ function EditProfileModale({profile, isOpen, hasClosed}: {profile: T_profile | u
   }, [profile]);
 
   const save = async () => {
-    setIsLoading(true);
-    const result = await AMW.write("some data test from bundlr", [
-      {name: "Protocol-Name", value: "Account-0.1"},
-      {name: "handle", value: "cromatikap-bundlr"}
-    ]);
-    console.log("save result: ", result);
-    setIsLoading(false);
+    if(!profileData.handle || profileData.handle && profileData.handle.length <= 0)
+      setHandleError(true);
+    else{
+      console.log(profileData);
+      setIsLoading(true);
+      const result = await AMW.write(JSON.stringify(profileData), [
+        {name: "Protocol-Name", value: protocolName},
+        {name: "handle", value: profileData.handle}
+      ]);
+      if(result)
+        alert("Your profile information has been saved. txid: " + result.txid);
+      else
+        alert("something wrong happened :(");
+      console.log("save result: ", result);
+      setIsLoading(false);
+      hasClosed();
+    }
   }
 
   return(<>
@@ -51,8 +61,13 @@ function EditProfileModale({profile, isOpen, hasClosed}: {profile: T_profile | u
           aria-label="handle"
           placeholder="handle"
           contentLeft="@"
+          status={handleError ? 'error' : 'default'}
           value={profileData?.handle ? profileData.handle : ''}
-          onChange={(e) => setProfileData({...profileData, handle: e.currentTarget.value})}
+          onChange={(e) => {
+            setProfileData({...profileData, handle: e.currentTarget.value})
+            setHandleError(false);
+          }}
+          label={handleError ? 'Please write your handle name' : ''}
         />
         <Input
           clearable
@@ -131,7 +146,7 @@ function EditProfileModale({profile, isOpen, hasClosed}: {profile: T_profile | u
           value={profileData.links.facebook ? profileData.links.facebook : ''}
           onChange={(e) => setProfileData({...profileData, links: {...profileData.links, facebook: e.currentTarget.value}})}
         />
-        <Row justify="space-between">
+        {/* <Row justify="space-between">
           <Checkbox>
             <Text size={14}>
               I agree to the <a
@@ -141,7 +156,7 @@ function EditProfileModale({profile, isOpen, hasClosed}: {profile: T_profile | u
                 rel="noreferrer">Terms and Conditions ↗️</a>
             </Text>
           </Checkbox>
-        </Row>
+        </Row> */}
       </Modal.Body>
       <Modal.Footer>
         <Button auto flat color="error" onClick={hasClosed}>

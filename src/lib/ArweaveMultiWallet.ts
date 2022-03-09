@@ -1,6 +1,7 @@
 import { ArweaveWebWallet } from "arweave-wallet-connector";
 import { providers } from "ethers";
 import { WebBundlr } from "@bundlr-network/client";
+import Arweave from 'arweave';
 
 import { icons } from "../static";
 import { T_jwk, T_walletName } from "../utils/types";
@@ -20,6 +21,11 @@ webWallet.setUrl('arweave.app');
 export default class ArweaveMultiWallet {
   public walletName: T_walletName | null = null;
   private walletEngine: any | null = null;
+  private arweave: Arweave;
+
+  constructor(arweave: Arweave) {
+    this.arweave = arweave;
+  }
 
   public async connect(walletName: T_walletName, walletEngine?: any): Promise<T_jwk | null> {
     this.walletName = walletName;
@@ -105,7 +111,20 @@ export default class ArweaveMultiWallet {
   }
 
   public async write(data: string, tags: {name: string, value: string}[]) {
-    if(this.walletName === "bundlr"){
+    if(this.walletName === "arconnect" || this.walletName === "webwallet"){
+      try{
+        const tx = await this.arweave.createTransaction({data});
+        tags.map(tag => tx.addTag(tag.name, tag.value));
+        await this.arweave.transactions.sign(tx);
+        console.log("tx", tx);
+        return {...await this.arweave.transactions.post(tx), txid: tx.id};
+      }
+      catch(e){
+        console.log("catch error: ", e);
+        return null;
+      }
+    }
+    else if(this.walletName === "bundlr"){
       const tx = this.walletEngine.createTransaction(data, {tags});
       console.log("tx", tx);
       await tx.sign();

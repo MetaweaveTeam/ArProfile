@@ -10,7 +10,7 @@ const arweave = Arweave.init({
   logging: false,
 });
 
-const AMW = new ArweaveMultiWallet();
+const AMW = new ArweaveMultiWallet(arweave);
 
 class Transaction {
   private walletName: T_walletName;
