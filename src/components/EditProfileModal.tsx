@@ -1,37 +1,22 @@
-import { useEffect, useState } from 'react';
-import { T_profile, T_walletName } from '../utils/types';
-import { Transaction } from '../utils/api';
+import {useEffect, useState} from 'react';
+import { T_profile } from '../utils/types';
 import { Modal, Text, Input, Row, Checkbox, Button, Textarea, Loading } from '@nextui-org/react';
 import { FaDiscord, FaTwitter, FaInstagram, FaFacebook, FaGithub } from 'react-icons/fa';
 import {AMW} from '../utils/api';
 
-function EditProfileModale({walletName, isOpen, hasClosed}: {walletName: T_walletName, isOpen: boolean, hasClosed: () => void}) {
-  const [profileData, setProfileData] = useState<T_profile>();
+function EditProfileModale({profile, isOpen, hasClosed}: {profile: T_profile | undefined, isOpen: boolean, hasClosed: () => void}) {
+  const [profileData, setProfileData] = useState<T_profile>({
+    jwk: "",
+    handle: "",
+    links: {},
+  });
+
   const [isLoading, setIsLoading] = useState(false);
 
-  // const save = async () => {
-  //   setIsLoading(true);
-  //   let tx = new Transaction(walletName);
-  //   const response = await tx.broadcast(JSON.stringify(
-  //     {
-  //       username: "cromatikap",
-  //       name: "Axel",
-  //       bio: "Software Engineer.\nFullstack developer.\nTraveler.\nFounder of Argora.",
-  //       links: {
-  //         twitter: "cromatikap",
-  //         instagram: "cromatikap",
-  //         github: "cromatikap"
-  //       },
-  //       image: "Ukdq-mGUm9Gm0A4_K0MLepP6cbPNWmRRkBs7aNzAJz8"
-  //     }),
-  //     [
-  //       {name: "Protocol-Name", value: "Account-0.1"},
-  //       {name: "handle", value: "cromatikap"}
-  //     ]
-  //   );
-  //   console.log(response);
-  //   setIsLoading(false);
-  // };
+  useEffect(() => {
+    if(profile && profile.handle)
+      setProfileData({...profile, handle: profile.handle.slice(0, -7)});
+  }, [profile]);
 
   const save = async () => {
     setIsLoading(true);
@@ -66,6 +51,8 @@ function EditProfileModale({walletName, isOpen, hasClosed}: {walletName: T_walle
           aria-label="handle"
           placeholder="handle"
           contentLeft="@"
+          value={profileData?.handle ? profileData.handle : ''}
+          onChange={(e) => setProfileData({...profileData, handle: e.currentTarget.value})}
         />
         <Input
           clearable
@@ -75,20 +62,14 @@ function EditProfileModale({walletName, isOpen, hasClosed}: {walletName: T_walle
           size="lg"
           aria-label="Name"
           contentLeft="Name"
+          value={profileData?.name ? profileData.name : ''}
+          onChange={(e) => setProfileData({...profileData, name: e.currentTarget.value})}
         />
         <Textarea
           aria-label="Bio"
           placeholder="Bio"
-        />
-        <Input
-          clearable
-          bordered
-          fullWidth
-          color="primary"
-          size="lg"
-          aria-label="Discord"
-          placeholder="Discord handle"
-          contentLeft={<FaDiscord />}
+          value={profileData?.bio ? profileData.bio : ''}
+          onChange={(e) => setProfileData({...profileData, bio: e.currentTarget.value})}
         />
         <Input
           clearable
@@ -99,6 +80,8 @@ function EditProfileModale({walletName, isOpen, hasClosed}: {walletName: T_walle
           aria-label="Twitter"
           placeholder="Twitter handle"
           contentLeft={<FaTwitter />}
+          value={profileData.links.twitter ? profileData.links.twitter : ''}
+          onChange={(e) => setProfileData({...profileData, links: {...profileData.links, twitter: e.currentTarget.value}})}
         />
         <Input
           clearable
@@ -106,9 +89,11 @@ function EditProfileModale({walletName, isOpen, hasClosed}: {walletName: T_walle
           fullWidth
           color="primary"
           size="lg"
-          aria-label="Instagram"
-          placeholder="Instagram handle"
-          contentLeft={<FaInstagram />}
+          aria-label="Discord"
+          placeholder="Discord handle"
+          contentLeft={<FaDiscord />}
+          value={profileData.links.discord ? profileData.links.discord : ''}
+          onChange={(e) => setProfileData({...profileData, links: {...profileData.links, discord: e.currentTarget.value}})}
         />
         <Input
           clearable
@@ -119,6 +104,20 @@ function EditProfileModale({walletName, isOpen, hasClosed}: {walletName: T_walle
           aria-label="Github"
           placeholder="Github handle"
           contentLeft={<FaGithub />}
+          value={profileData.links.github ? profileData.links.github : ''}
+          onChange={(e) => setProfileData({...profileData, links: {...profileData.links, github: e.currentTarget.value}})}
+        />
+        <Input
+          clearable
+          bordered
+          fullWidth
+          color="primary"
+          size="lg"
+          aria-label="Instagram"
+          placeholder="Instagram handle"
+          contentLeft={<FaInstagram />}
+          value={profileData.links.instagram ? profileData.links.instagram : ''}
+          onChange={(e) => setProfileData({...profileData, links: {...profileData.links, instagram: e.currentTarget.value}})}
         />
         <Input
           clearable
@@ -129,6 +128,8 @@ function EditProfileModale({walletName, isOpen, hasClosed}: {walletName: T_walle
           aria-label="Facebook"
           placeholder="Facebook handle"
           contentLeft={<FaFacebook />}
+          value={profileData.links.facebook ? profileData.links.facebook : ''}
+          onChange={(e) => setProfileData({...profileData, links: {...profileData.links, facebook: e.currentTarget.value}})}
         />
         <Row justify="space-between">
           <Checkbox>
@@ -143,8 +144,8 @@ function EditProfileModale({walletName, isOpen, hasClosed}: {walletName: T_walle
         </Row>
       </Modal.Body>
       <Modal.Footer>
-        <Button auto flat color="error">
-        Close
+        <Button auto flat color="error" onClick={hasClosed}>
+        Cancel
         </Button>
         <Button onClick={save} css={{ px: '$13' }}>
           {isLoading ? <Loading color="white" size="sm" /> : 'Save'}

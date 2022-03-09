@@ -4,17 +4,17 @@ type T_walletName = "arconnect" | "webwallet" | "bundlr";
 
 type T_profile = {
   jwk: T_jwk,
-  handle: string,
-  username: string,
-  name: string,
-  bio: string,
+  handle?: string,
+  name?: string,
+  bio?: string,
   links: {
     twitter?: string,
-    instagram?: string,
+    discord?: string,
     github?: string,
+    instagram?: string,
     facebook?: string
   },
-  image: T_txid
+  avatar?: T_txid
 }
 
 export type {T_jwk, T_txid, T_walletName, T_profile}

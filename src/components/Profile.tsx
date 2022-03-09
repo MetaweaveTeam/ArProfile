@@ -61,19 +61,21 @@ function Profile({jwk, walletName, disconnectWallet}: {jwk: T_jwk, walletName: T
         <Spacer y={3}/>
       </>
     : <>
-        <EditProfileModale walletName={walletName} isOpen={modalIsOpen} hasClosed={() => setModalIsOpen(false)} />
+        <EditProfileModale profile={profileData} isOpen={modalIsOpen} hasClosed={() => setModalIsOpen(false)} />
 
         <Grid.Container gap={2} justify="space-between">
           <Button auto onClick={disconnectWallet} icon={<AiOutlinePoweroff size={18} />} color="error">Logout</Button>
           <Button auto onClick={() => setModalIsOpen(true)} iconRight={<FiEdit size={18} />} color="gradient">Edit Profile</Button>
         </Grid.Container>
 
-        {profileData && profileData.image ? 
-        <>
+        {profileData ? <>
           <BoxVertoID>
-            <AvatarS src={`https://arweave.net/${profileData.image}`} sx={{ width: 200, height: 200 }} />
+            {profileData.avatar
+              ? <AvatarS src={`https://arweave.net/${profileData.avatar}`} sx={{ width: 200, height: 200 }} />
+              : <AvatarS sx={{ width: 200, height: 200 }}>{jwk.slice(0, 2)}</AvatarS>
+            }
             <VertoIDinfo>
-              <Name>{profileData.name}</Name>
+            {profileData.name && <Name>{profileData.name}</Name>}
               <UserAddr href={`https://viewblock.io/arweave/address/${jwk}`} target="_blank" rel="noreferrer">
                 @{profileData.handle}
               </UserAddr>
