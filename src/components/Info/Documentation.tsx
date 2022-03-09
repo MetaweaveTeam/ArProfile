@@ -1,19 +1,27 @@
+import { Grid } from '@nextui-org/react';
+import { FaGithub } from 'react-icons/fa';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 
 function Documentation({syntaxTheme}: {syntaxTheme: any}) {
   return(<>
-    <p>The current UI you're browsing now makes the Account protocol permanently accessible, immutable and reusable as you can simply redirect to this permadapp for them to edit their accounts.</p>
-    <p>Account protocol is a simple transaction containing the latest data state. A wallet key is attached to its own latest write with the tag Protocol-Name: 'Account-{'<version>'}'</p>
+    <h4>Integrate Account in your app</h4>
     <SyntaxHighlighter language="shell" style={syntaxTheme}>
       npm install arweave-account
     </SyntaxHighlighter>
+    <h4>Usage</h4>
     <SyntaxHighlighter language="javascript" style={syntaxTheme}>
       {`import Account from 'arweave-account'
 
 const account = new Account();
-const {profile, txid, addr} = await account.get(jwk); // Get Account
-await account.search(handle); // return array of similar Accounts`}
+const {profile, txid} = await account.get(walletAddr); // Get Account
+const profiles = await account.search(handle); // return array of similar Accounts`}
     </SyntaxHighlighter>
+    Voilà.
+    <Grid.Container gap={1} justify="center" alignItems='center'>
+      <a href="https://github.com/MetaweaveTeam/arweave-account" target="_blank" rel="noreferrer">arweave-account</a>
+      <FaGithub size={50} style={{margin: '20px'}} />
+      <a href="https://github.com/MetaweaveTeam/Account" target="_blank" rel="noreferrer">This application</a>
+    </Grid.Container>
   </>);
 }
 

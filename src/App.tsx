@@ -18,7 +18,6 @@ const Body = ({syntaxTheme}: {syntaxTheme: any}) =>
   (<div className="App">
     <header>
       <h1>Account</h1>
-      {/* <img src={icons.metaweave} alt="logo" /> */}
       <ImProfile size={230} />
       <h2>
         Your identity on the <a href="https://arweave.org" target="_blank" rel="noreferrer">permaweb</a>.
