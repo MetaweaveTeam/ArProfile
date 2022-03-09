@@ -80,7 +80,7 @@ function Profile({jwk, walletName, disconnectWallet}: {jwk: T_jwk, walletName: T
           <BoxVertoID>
             {profileData.avatar
               ? <AvatarS src={`https://arweave.net/${profileData.avatar}`} sx={{ width: 200, height: 200 }} />
-              : <AvatarS sx={{ width: 200, height: 200 }}>{jwk.slice(0, 2)}</AvatarS>
+              : <AvatarS sx={{ width: 200, height: 200, fontSize: 'xx-large', fontFamily: 'monospace' }}>#{jwk.slice(0, 3)}{jwk.slice(-3)}</AvatarS>
             }
             <VertoIDinfo>
             {profileData.name && <Name>{profileData.name}</Name>}
