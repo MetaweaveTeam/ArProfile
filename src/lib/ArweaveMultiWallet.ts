@@ -4,7 +4,7 @@ import { WebBundlr } from "@bundlr-network/client";
 import Arweave from 'arweave';
 
 import { icons } from "../static";
-import { T_jwk, T_walletName } from "../utils/types";
+import { T_addr, T_walletName } from "../utils/types";
 
 const arConnectPermissions = [
   "ACCESS_ADDRESS",
@@ -27,7 +27,7 @@ export default class ArweaveMultiWallet {
     this.arweave = arweave;
   }
 
-  public async connect(walletName: T_walletName, walletEngine?: any): Promise<T_jwk | null> {
+  public async connect(walletName: T_walletName, walletEngine?: any): Promise<T_addr | null> {
     this.walletName = walletName;
     this.walletEngine = walletEngine;
 
@@ -49,8 +49,8 @@ export default class ArweaveMultiWallet {
     else if(walletName === "webwallet") {
       await webWallet.connect();
       this.walletEngine = await webWallet.namespaces.arweaveWallet;
-      const jwk = await this.walletEngine.getActiveAddress();
-      return jwk ? jwk : null;
+      const addr = await this.walletEngine.getActiveAddress();
+      return addr ? addr : null;
     }
     else if(walletName === "bundlr") {
       const connectWeb3 = async (connector: any) => {

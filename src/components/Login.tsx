@@ -10,7 +10,7 @@ import { AMW } from '../utils/api';
 function Login({onClick}: {onClick?: () => void}) {
   const {theme} = useContext(ctx);
   const arConnect = useArConnect();
-  const [jwk, setJwk] = useState<string | null>(null);
+  const [addr, setaddr] = useState<string | null>(null);
   const [walletName, setWalletName] = useState<T_walletName>();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -19,31 +19,31 @@ function Login({onClick}: {onClick?: () => void}) {
     (async () => {
       try {
         if ((await arConnect.getPermissions()).includes("ACCESS_ADDRESS")) {
-          setJwk(await arConnect.getActiveAddress());
+          setaddr(await arConnect.getActiveAddress());
         }
       } catch {
         alert("Error: Could not get ACCESS_ADDRESS permission");
       }
     })();
-  }, [arConnect, jwk, setJwk]);
+  }, [arConnect, addr, setaddr]);
 
   const disconnectWallet = async () => {
     await AMW.disconnect();
-    setJwk(null);
+    setaddr(null);
   };
 
   const login = {
     arconnect: async () => {
-      setJwk(await AMW.connect("arconnect", arConnect));
+      setaddr(await AMW.connect("arconnect", arConnect));
       setWalletName("arconnect");
     },
     arweaveWebWallet: async () => {
-      setJwk(await AMW.connect("webwallet"));
+      setaddr(await AMW.connect("webwallet"));
       setWalletName("webwallet");
     },
     bundlr: async () => {
       console.log("bundlr");
-      setJwk(await AMW.connect("bundlr"));
+      setaddr(await AMW.connect("bundlr"));
       setWalletName("bundlr");
     }
   }
@@ -52,8 +52,8 @@ function Login({onClick}: {onClick?: () => void}) {
     ? <Grid.Container gap={1} justify="center">
         <Loading size="xl" css={{padding: '$24'}} />
       </Grid.Container>
-    : jwk && walletName
-    ? <Profile jwk={jwk} walletName={walletName} disconnectWallet={disconnectWallet}/>
+    : addr && walletName
+    ? <Profile addr={addr} walletName={walletName} disconnectWallet={disconnectWallet}/>
     : <div className="connection">
         <div className="wallet" onClick={async () => {
           setIsLoading(true);

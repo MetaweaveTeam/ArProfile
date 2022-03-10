@@ -15,13 +15,13 @@ import {
   VertoIDinfo,
 } from '../static/styles/Profile';
 
-import { T_jwk, T_profile, T_walletName, T_txid } from '../utils/types';
+import { T_addr, T_profile, T_walletName, T_txid } from '../utils/types';
 import Account from '../arweave-account/lib';
 
 import EditProfileModale from './EditProfileModal';
 import { AMW } from '../utils/api';
 
-function Profile({jwk, walletName, disconnectWallet}: {jwk: T_jwk, walletName: T_walletName, disconnectWallet: () => void}) {
+function Profile({addr, walletName, disconnectWallet}: {addr: T_addr, walletName: T_walletName, disconnectWallet: () => void}) {
 
   const [profileData, setProfileData] = useState<T_profile>();
   const [profileTxid, setProfileTxid] = useState<T_txid>();
@@ -34,7 +34,7 @@ function Profile({jwk, walletName, disconnectWallet}: {jwk: T_jwk, walletName: T
     (async () => {
       try {
         const account = new Account();
-        const {profile, txid} = await account.get(jwk);
+        const {profile, txid} = await account.get(addr);
         console.log("profile: ", profile);
         setProfileData(profile);
         setProfileTxid(txid);
@@ -48,7 +48,7 @@ function Profile({jwk, walletName, disconnectWallet}: {jwk: T_jwk, walletName: T
         setIsLoading(false);
       }
     })()
-  }, [jwk]);
+  }, [addr]);
 
   return(
     <div className='gradient-border' style={{padding: '5px'}}>{isLoading
@@ -87,11 +87,11 @@ function Profile({jwk, walletName, disconnectWallet}: {jwk: T_jwk, walletName: T
           <BoxVertoID>
             {profileData.avatar
               ? <AvatarS src={`https://arweave.net/${profileData.avatar}`} sx={{ width: 200, height: 200 }} />
-              : <AvatarS sx={{ width: 200, height: 200, fontSize: 'xx-large', fontFamily: 'monospace' }}>#{jwk.slice(0, 3)}{jwk.slice(-3)}</AvatarS>
+              : <AvatarS sx={{ width: 200, height: 200, fontSize: 'xx-large', fontFamily: 'monospace' }}>#{addr.slice(0, 3)}{addr.slice(-3)}</AvatarS>
             }
             <VertoIDinfo>
             {profileData.name && <Name>{profileData.name}</Name>}
-              <UserAddr href={`https://viewblock.io/arweave/address/${jwk}`} target="_blank" rel="noreferrer">
+              <UserAddr href={`https://viewblock.io/arweave/address/${addr}`} target="_blank" rel="noreferrer">
                 @{profileData.handle}
               </UserAddr>
               <DetailsS>
@@ -130,8 +130,8 @@ function Profile({jwk, walletName, disconnectWallet}: {jwk: T_jwk, walletName: T
                 fontSize: '',
                 fontFamily: 'monospace'
               }}>
-                <a href={`https://viewblock.io/arweave/address/${jwk}`} target="_blank" rel="noreferrer">
-                  {`${jwk.slice(0,5)}...${jwk.slice(jwk.length-5, jwk.length)}`}
+                <a href={`https://viewblock.io/arweave/address/${addr}`} target="_blank" rel="noreferrer">
+                  {`${addr.slice(0,5)}...${addr.slice(addr.length-5, addr.length)}`}
                 </a>
               </span>
               {` 🙂`}

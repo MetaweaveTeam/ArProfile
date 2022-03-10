@@ -7,7 +7,7 @@ import { protocolName } from '../static';
 
 function EditProfileModale({profile, isOpen, hasClosed}: {profile: T_profile | undefined, isOpen: boolean, hasClosed: () => void}) {
   const [profileData, setProfileData] = useState<T_profile>({
-    jwk: "",
+    addr: "",
     links: {},
   });
   const [handleError, setHandleError] = useState(false);
