@@ -13,28 +13,30 @@ Account comes with a handy npm package `arweave-account` which makes easy for ot
 
 ## How I built it
 
-`$ create-react-app account --template typescript`
+Account is a simple react app (create-react-app) with typescript that is designed to be deployed and used on the permaweb
 
 ## Challenges I ran into
 
 Since `react-script` version 5, polyfills are no longer included, I had to override the webpack configuration and find out solutions on Bundlr's discord.
 
+Sometime, the gateway is not able to retrieve transactions made with Bundlr, either by txid, or by tags.
+
 ## Accomplishments that I'm proud of
 
-
+I wanted the application to perform the same feature (create/edit profile via the same formated transaction) while being compatible with multiple wallet clients. I ended up making an interface for to connect, disconnect and write that includes Bundlr, ArConnect and arweave.app and it is a relatively reusable code that could help other developers to integrate it in their app. 
 
 ## What I learned
 
-
+I learned how to use Buidlr network.
 
 ## What's next for Account
 
-
-
+- Add the avatar upload
+- Finish `arweave-account` library
+- Integrate Account on Metaweave.xyz
+- Extend Account for specific permadapps to add custom entries along with the common profile data
 
 # Getting Started
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 `
 $ npm i
