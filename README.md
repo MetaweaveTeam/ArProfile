@@ -14,28 +14,32 @@ Account comes with a handy npm package `arweave-account` which makes easy for ot
 
 ## How I built it
 
-Account is a simple react app (create-react-app) with typescript that is designed to be deployed and used on the permaweb
+Account is a simple react app (create-react-app) with typescript that is designed to be deployed and used on the permaweb.
 
 ## Challenges I ran into
 
-Since `react-script` version 5, polyfills are no longer included, I had to override the webpack configuration and find out solutions on Bundlr's discord.
+Since react-script version 5, polyfills are no longer included, I had to override the webpack configuration and find out solutions on Bundlr's discord.
 
-Sometime, the gateway is not able to retrieve transactions made with Bundlr, either by txid, or by tags.
+Sometimes, graphql is not able to retrieve transactions made with Bundlr, either by txid, or by tags although they are still reachable using the gateway.
+
+Example:
+- https://arweave.net/zGsWGD-qDXo2FWEAu-CH21q01Ia1c64gP2-sS0zUHu4
+- https://arweave.net/aomHrlmB1NQozbpic993WJdZfFUdbTzPWm0Jd5XCMqY
 
 ## Accomplishments that I'm proud of
 
-I wanted the application to perform the same feature (create/edit profile via the same formated transaction) while being compatible with multiple wallet clients. I ended up making an interface for to connect, disconnect and write that includes Bundlr, ArConnect and arweave.app and it is a relatively reusable code that could help other developers to integrate it in their app. 
+I wanted the application to perform the same feature (create/edit profile via the same formatted transaction) while being compatible with multiple wallet clients. I ended up making an interface to connect, disconnect and write including Bundlr, ArConnect and arweave.app and it is a relatively reusable code that could help other developers to integrate it in their app.
 
 ## What I learned
 
-I learned how to use Buidlr network.
+I learned to use nextUI, to use Bundlr network, write, publish and use a simple npm package.
 
 ## What's next for Account
 
-- Add the avatar upload
-- Finish `arweave-account` library
-- Integrate Account on Metaweave.xyz
-- Extend Account for specific permadapps to add custom entries along with the common profile data
+- polish it up and fix the details: having an Alert pop-up to tell the user to wait for miners to confirm their tx is ugly
+- Extend Account for specific permadapps to add custom entries along with the common profile data.
+- Finish arweave-account library.
+- Integrate Account on Metaweave.
 
 # Getting Started
 
