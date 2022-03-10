@@ -14,7 +14,7 @@ function Documentation({syntaxTheme}: {syntaxTheme: any}) {
 
 const account = new Account();
 const {profile, txid} = await account.get(walletAddr); // Get Account
-const profiles = await account.search(handle); // return array of similar Accounts`}
+const profiles = await account.search(handle); // return array of matching handle name accounts`}
     </SyntaxHighlighter>
     Voilà.
     <Grid.Container gap={1} justify="center" alignItems='center'>

@@ -1,9 +1,11 @@
 import {useEffect, useState} from 'react';
 import { T_profile } from '../utils/types';
-import { Modal, Text, Input, Row, Checkbox, Button, Textarea, Loading } from '@nextui-org/react';
+import { Modal, Text, Input, Row, Checkbox, Button, Textarea, Loading, Grid, Spacer } from '@nextui-org/react';
 import { FaDiscord, FaTwitter, FaInstagram, FaFacebook, FaGithub } from 'react-icons/fa';
 import {AMW} from '../utils/api';
 import { protocolName } from '../static';
+import { AvatarS } from '../static/styles/Profile';
+import { BiUserCircle } from 'react-icons/bi';
 
 function EditProfileModale({profile, isOpen, hasClosed}: {profile: T_profile | undefined, isOpen: boolean, hasClosed: () => void}) {
   const [profileData, setProfileData] = useState<T_profile>({
@@ -12,6 +14,9 @@ function EditProfileModale({profile, isOpen, hasClosed}: {profile: T_profile | u
   });
   const [handleError, setHandleError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  const [picture, setPicture] = useState<{blobUrl: string, type: string} | null>(null);
+  const [pictureIsLoading, setPictureIsLoading] = useState(false);
 
   useEffect(() => {
     if(profile && profile.handle)
@@ -38,6 +43,44 @@ function EditProfileModale({profile, isOpen, hasClosed}: {profile: T_profile | u
     }
   }
 
+  const handleChangePicture = (e: React.FormEvent<HTMLInputElement>) => {
+    console.log("handleChangePicture");
+    const files = e.currentTarget.files;
+    if(files && files.length > 0){
+      setPicture({
+        blobUrl: URL.createObjectURL(files[0]),
+        type: files[0].type
+      });
+    }
+    e.currentTarget.files = null;
+  };
+
+  const uploadPicture = async () => {
+    setPictureIsLoading(true);
+    if(picture){
+      let blob = await fetch(picture.blobUrl).then(r => r.blob());
+      
+      const reader = new FileReader();
+      reader.addEventListener('loadend', async () => {
+        if(reader.result){
+          try{
+            const result = await AMW.write(reader.result, [{name: "Content-Type", value: picture.type}]);
+            console.log("picture result", result);
+            setProfileData({...profileData, avatar: result.txid})
+          }
+          catch(e){
+            alert("Upload failed :( error in the console");
+          }
+          finally{
+            setPictureIsLoading(false);
+            setPicture(null);
+          }
+        }
+      });
+      reader.readAsArrayBuffer(blob);
+    }
+  }
+
   return(<>
     <Modal
       preventClose
@@ -52,6 +95,40 @@ function EditProfileModale({profile, isOpen, hasClosed}: {profile: T_profile | u
         </Text>
       </Modal.Header>
       <Modal.Body>
+        <Grid.Container gap={1} justify="center">
+          <label style={{display: 'inherit', cursor: 'pointer'}}>
+            <input hidden
+              type="file"
+              accept="image/*"
+              onChange={handleChangePicture}
+              aria-label="avatar file"
+            />
+            {
+              picture ? <>
+                <AvatarS src={picture.blobUrl} sx={{ width: 200, height: 200 }} />
+                <Button auto
+                  color="gradient"
+                  style={{
+                    position: 'absolute'
+                  }}
+                  onClick={uploadPicture}
+                >
+                  {pictureIsLoading ? <Loading color="white" size="sm" /> : 'Upload'}
+                </Button>
+              </>
+              : profileData.avatar
+              ? <AvatarS src={`https://arweave.net/${profileData.avatar}`} sx={{ width: 200, height: 200 }} />
+              : <AvatarS sx={{ width: 200, height: 200, fontSize: 'xx-large', fontFamily: 'monospace' }}>#{profileData.addr.slice(0, 3)}{profileData.addr.slice(-3)}</AvatarS>
+            }
+          </label>
+        </Grid.Container>
+        <Input
+          disabled
+          contentLeft={<BiUserCircle />}
+          value={profileData?.avatar ? `${profileData.avatar.slice(0,5)}...${profileData.avatar.slice(-5)}` : ''} placeholder="txid"
+          aria-label='avatar txid'
+        />
+        <Spacer y={1}/>
         <Input
           clearable
           bordered

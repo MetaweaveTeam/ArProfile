@@ -110,7 +110,7 @@ export default class ArweaveMultiWallet {
     }
   }
 
-  public async write(data: string, tags: {name: string, value: string}[]) {
+  public async write(data: string | ArrayBuffer, tags: {name: string, value: string}[]) {
     if(this.walletName === "arconnect" || this.walletName === "webwallet"){
       try{
         const tx = await this.arweave.createTransaction({data});

@@ -2,7 +2,8 @@
 
 ## Inspiration
 
-As our wallets are our identity on the web 3, It becomes necessary to be able to recognize each other with human friendly things such as an avatar, a nickname and a unique handle. Verto ID is a way to do that but it meets scalability issues. On the other hand, arweave-id is interesting but its features are limited while the  
+As our wallets are our identity on the web 3, It becomes necessary to be able to recognize each other with human friendly features such as an avatar, a nickname and a unique handle. Verto ID is a way to do that but it meets scalability issues. On the other side, arweave-id is interesting but its features are limited (no avatar) and the current UI doesn't aim to integrate the latest wallet clients.
+Account is a definitive protocol on arweave that aim to combine the best of both worlds.
 
 ## What it does
 
