@@ -142,10 +142,18 @@ export default class ArweaveMultiWallet {
   }
 
   public async disconnect(): Promise<void> {
-    console.log("this.walletEnging", this.walletEngine);
+    console.log("this.walletEngine", this.walletEngine);
     if(this.walletName === "arconnect" || this.walletName === "webwallet")
       this.walletEngine.disconnect();
     
     this.walletEngine = null;
+  }
+
+  public async getBalance() {
+    if(this.walletName === "bundlr"){
+      const balance = await this.walletEngine.getLoadedBalance();
+      console.log("balance", balance);
+      return this.walletEngine.utils.unitConverter(balance).toFixed(7, 2).toString() + " " + this.walletEngine.currencyConfig.ticker.toLowerCase()
+    }
   }
 }

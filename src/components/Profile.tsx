@@ -19,6 +19,7 @@ import { T_jwk, T_profile, T_walletName, T_txid } from '../utils/types';
 import Account from '../arweave-account/lib';
 
 import EditProfileModale from './EditProfileModal';
+import { AMW } from '../utils/api';
 
 function Profile({jwk, walletName, disconnectWallet}: {jwk: T_jwk, walletName: T_walletName, disconnectWallet: () => void}) {
 
@@ -27,6 +28,7 @@ function Profile({jwk, walletName, disconnectWallet}: {jwk: T_jwk, walletName: T
   const [isLoading, setIsLoading] = useState(true);
   const [hasFailed, setHasFailed] = useState<string | false>(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [balance, setBalance] = useState<string>();
   
   useEffect(() => {
     (async () => {
@@ -36,6 +38,7 @@ function Profile({jwk, walletName, disconnectWallet}: {jwk: T_jwk, walletName: T
         console.log("profile: ", profile);
         setProfileData(profile);
         setProfileTxid(txid);
+        setBalance(await AMW.getBalance());
       }
       catch (e){
         console.log(e);
@@ -68,15 +71,19 @@ function Profile({jwk, walletName, disconnectWallet}: {jwk: T_jwk, walletName: T
 
         <Grid.Container gap={3} justify="space-between" alignItems='center'>
           <Button auto onClick={disconnectWallet} icon={<AiOutlinePoweroff size={18} />} color="error">Logout</Button>
-          {profileTxid && 
+          {walletName === "bundlr" && <>
+            Balance: {balance}
+            <a href="https://demo.bundlr.network/" target="_blank" rel="noreferrer">Top-up my bundlr account</a>
+          </>}
+          <Button auto onClick={() => setModalIsOpen(true)} iconRight={<FiEdit size={18} />} color="gradient">Edit Profile</Button>
+        </Grid.Container>
+        
+        {profileData ? <>
+          {profileTxid && <Grid.Container gap={2} justify="center">
             <a href={`https://viewblock.io/arweave/tx/${profileTxid}`} target="_blank" rel="noreferrer" style={{fontFamily: "monospace", fontSize: "larger"}}>
               txid: {profileTxid}
             </a>
-          }
-          <Button auto onClick={() => setModalIsOpen(true)} iconRight={<FiEdit size={18} />} color="gradient">Edit Profile</Button>
-        </Grid.Container>
-
-        {profileData ? <>
+          </Grid.Container>}
           <BoxVertoID>
             {profileData.avatar
               ? <AvatarS src={`https://arweave.net/${profileData.avatar}`} sx={{ width: 200, height: 200 }} />
