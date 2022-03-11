@@ -1,4 +1,10 @@
-# About
+
+
+# Arweave Account: your identity on the [permaweb](https://arweave.org).
+
+Permanent, decentralized, owned by you.
+
+[Visit the permadapp](https://cewjyyeqlxapf2uv3f2rfmhtxdfsfj6wiqaskx4ewsufl5hi.arweave.net/ESycYJBdwPLqldl_1_ErDzuMsip9ZEAS-VfhLSoVfTo)
 
 ## Inspiration
 
@@ -20,7 +26,7 @@ Account is a simple react app (create-react-app) with typescript that is designe
 
 Since react-script version 5, polyfills are no longer included, I had to override the webpack configuration and find out solutions on Bundlr's discord.
 
-Sometimes, graphql is not able to retrieve transactions made with Bundlr, either by txid, or by tags although they are still reachable using the gateway.
+Graphql is not able to retrieve transactions made with Bundlr, either by txid, or by tags although they are still reachable using the gateway.
 
 Example:
 - https://arweave.net/zGsWGD-qDXo2FWEAu-CH21q01Ia1c64gP2-sS0zUHu4
@@ -43,23 +49,23 @@ I learned to use nextUI, to use Bundlr network, write, publish and use a simple 
 
 # Getting Started
 
-`
+```
 $ npm i
 $ npm start
-`
+```
 
 # Deploy permanently
 
-`
+```
 $ npm run build
 $ npx arweave-deploy deploy build/static/js/main.<id>.js --package --key-file <key file path>
-`
+```
 
 - Copy/paste the deployed javascript file link to the <script> tag in `/build/index.html`
 - In `/build/index.html` move the <script> tag from <head> in <body> at the end
 
-`
+```
 $ npx arweave-deploy deploy build/index.html --package --key-file <your key file>
-`
+```
 
 Voilà
