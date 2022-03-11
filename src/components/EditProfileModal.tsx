@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import { T_profile } from '../utils/types';
+import { T_addr, T_profile } from '../utils/types';
 import { Modal, Text, Input, Row, Checkbox, Button, Textarea, Loading, Grid, Spacer } from '@nextui-org/react';
 import { FaDiscord, FaTwitter, FaInstagram, FaFacebook, FaGithub } from 'react-icons/fa';
 import {AMW} from '../utils/api';
@@ -7,7 +7,7 @@ import { protocolName } from '../static';
 import { AvatarS } from '../static/styles/Profile';
 import { BiUserCircle } from 'react-icons/bi';
 
-function EditProfileModale({profile, isOpen, hasClosed}: {profile: T_profile | undefined, isOpen: boolean, hasClosed: () => void}) {
+function EditProfileModale({addr, profile, isOpen, hasClosed}: {addr: T_addr, profile: T_profile | undefined, isOpen: boolean, hasClosed: () => void}) {
   const [profileData, setProfileData] = useState<T_profile>({
     addr: "",
     links: {},
@@ -24,7 +24,7 @@ function EditProfileModale({profile, isOpen, hasClosed}: {profile: T_profile | u
   }, [profile]);
 
   const save = async () => {
-    if(!profileData.handle || profileData.handle && profileData.handle.length <= 0)
+    if(!profileData.handle || (profileData.handle && profileData.handle.length) <= 0)
       setHandleError(true);
     else{
       console.log(profileData);
@@ -118,7 +118,7 @@ function EditProfileModale({profile, isOpen, hasClosed}: {profile: T_profile | u
               </>
               : profileData.avatar
               ? <AvatarS src={`https://arweave.net/${profileData.avatar}`} sx={{ width: 200, height: 200 }} />
-              : <AvatarS sx={{ width: 200, height: 200, fontSize: 'xx-large', fontFamily: 'monospace' }}>#{profileData.addr.slice(0, 3)}{profileData.addr.slice(-3)}</AvatarS>
+              : <AvatarS sx={{ width: 200, height: 200, fontSize: 'xx-large', fontFamily: 'monospace' }}>#{addr.slice(0, 3)}{addr.slice(-3)}</AvatarS>
             }
           </label>
         </Grid.Container>

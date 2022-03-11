@@ -67,7 +67,7 @@ function Profile({addr, walletName, disconnectWallet}: {addr: T_addr, walletName
         <Spacer y={3}/>
       </>
     : <>
-        <EditProfileModale profile={profileData} isOpen={modalIsOpen} hasClosed={() => setModalIsOpen(false)} />
+        <EditProfileModale addr={addr} profile={profileData} isOpen={modalIsOpen} hasClosed={() => setModalIsOpen(false)} />
 
         <Grid.Container gap={3} justify="space-between" alignItems='center'>
           <Button auto onClick={disconnectWallet} icon={<AiOutlinePoweroff size={18} />} color="error">Logout</Button>
