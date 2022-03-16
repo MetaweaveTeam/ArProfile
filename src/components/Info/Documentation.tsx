@@ -1,8 +1,32 @@
-import { Grid } from '@nextui-org/react';
+import { FormElement, Grid, Input } from '@nextui-org/react';
 import { FaGithub } from 'react-icons/fa';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import Account from 'arweave-account';
+import { useEffect, useState } from 'react';
+
+const account = new Account();
+let typingTimeout: any = null;
 
 function Documentation({syntaxTheme}: {syntaxTheme: any}) {
+  const [walletAddr, setWalletAddr] = useState("aIUmY9Iy4qoW3HOikTy6aJww-mM4Y-CUJ7mXoPdzdog");
+  const [getReturn, setGetReturn] = useState("");
+
+  const handleChangeWalletAddr = (e: React.FormEvent<FormElement>) => {
+    const walletAddr = e.currentTarget.value;
+    setWalletAddr(walletAddr);
+
+    if(typingTimeout) clearTimeout(typingTimeout);
+    typingTimeout = setTimeout(async () => {
+      setGetReturn(JSON.stringify(await account.get(walletAddr), null, 2));
+    }, 300);
+  }
+
+  useEffect(() => {
+    (async () => {
+      setGetReturn(JSON.stringify(await account.get(walletAddr), null, 2));
+    })()
+  });
+
   return(<>
     <h4>Integrate Account in your app</h4>
     <SyntaxHighlighter language="shell" style={syntaxTheme}>
@@ -10,11 +34,30 @@ function Documentation({syntaxTheme}: {syntaxTheme: any}) {
     </SyntaxHighlighter>
     <h4>Usage</h4>
     <SyntaxHighlighter language="javascript" style={syntaxTheme}>
-      {`import Account from 'arweave-account'
+{`import Account from 'arweave-account';
+...
+const account = new Account();`}
+    </SyntaxHighlighter>
 
-const account = new Account();
-const {profile, txid} = await account.get(walletAddr); // Get Account
-const profiles = await account.search(handle); // return array of matching handle name accounts`}
+    <h4>Get user profile by wallet address</h4>
+    <Input fullWidth
+      spellCheck={false}
+      aria-label="Wallet address"
+      labelLeft="Wallet address" 
+      value={walletAddr}
+      onChange={handleChangeWalletAddr}
+    />
+    <SyntaxHighlighter language="javascript" style={syntaxTheme}>
+      {`await account.get("${walletAddr}");`}
+    </SyntaxHighlighter>
+    Return:
+    <SyntaxHighlighter language="json" style={syntaxTheme}>
+      {getReturn}
+    </SyntaxHighlighter>
+
+    <h4>Get user profile by handle name</h4>
+    <SyntaxHighlighter language="javascript" style={syntaxTheme}>
+      const profiles = await account.search(handle);
     </SyntaxHighlighter>
     Voilà.
     <Grid.Container gap={1} justify="center" alignItems='center'>
