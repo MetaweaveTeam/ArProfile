@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 import { T_addr, T_profile } from '../utils/types';
-import { Modal, Text, Input, Row, Checkbox, Button, Textarea, Loading, Grid, Spacer } from '@nextui-org/react';
+import { Modal, Text, Input, /*Row, Checkbox,*/ Button, Textarea, Loading, Grid, Spacer } from '@nextui-org/react';
 import { FaDiscord, FaTwitter, FaInstagram, FaFacebook, FaGithub } from 'react-icons/fa';
 import {AMW} from '../utils/api';
 import { protocolName } from '../static';
