@@ -24,7 +24,7 @@ const Body = ({syntaxTheme}: {syntaxTheme: any}) =>
       </h2>
     </header>
     <main>
-      <Grid.Container gap={2} justify="space-between" alignItems="center">
+      <Grid.Container justify="space-between" alignItems="center">
         <h3><IoMdWallet />Access</h3>
         <ThemeSwitch />
       </Grid.Container>

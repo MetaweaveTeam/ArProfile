@@ -54,6 +54,13 @@ const GlobalStyles = createGlobalStyle`
   .wallet:hover {
     border: 1px solid ${({theme}) => theme.userAction};
   }
+
+  h4 {
+    font-size: x-large
+  }
+  p {
+    text-align: justify;
+  }
 `;
 
 const transition = "transition: background 0.2s ease-in, color 0.2s ease-in, border-color 0.2s ease-in, opacity 0.2s ease-in;"
