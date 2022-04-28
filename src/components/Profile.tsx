@@ -35,7 +35,6 @@ function Profile({addr, walletName, disconnectWallet}: {addr: T_addr, walletName
       try {
         const account = new Account();
         const {profile, txid} = await account.get(addr);
-        console.log("profile: ", profile);
         setProfileData(profile);
         setProfileTxid(txid);
         setBalance(await AMW.getBalance());

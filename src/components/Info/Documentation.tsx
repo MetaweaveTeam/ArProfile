@@ -12,6 +12,8 @@ function Documentation({syntaxTheme}: {syntaxTheme: any}) {
   const [getReturn, setGetReturn] = useState("");
   const [handle, setHandle] = useState("cromatikap");
   const [searchReturn, setSearchReturn] = useState("");
+  const [uniqueHandle, setUniqueHandle] = useState("cromatikap#aIUdog");
+  const [findReturn, setFindReturn] = useState("");
 
   const handleChangeWalletAddr = (e: React.FormEvent<FormElement>) => {
     const walletAddr = e.currentTarget.value;
@@ -33,12 +35,24 @@ function Documentation({syntaxTheme}: {syntaxTheme: any}) {
     }, 300);
   }
 
+  const handleChangeUniqueHandle = (e: React.FormEvent<FormElement>) => {
+    const uniqueHandle = e.currentTarget.value;
+    setUniqueHandle(uniqueHandle);
+
+    if(typingTimeout) clearTimeout(typingTimeout);
+    typingTimeout = setTimeout(async () => {
+      setFindReturn(JSON.stringify(await account.find(uniqueHandle), null, 2));
+    }, 300);
+  }
+
   useEffect(() => {
     (async () => {
       setGetReturn(JSON.stringify(await account.get(walletAddr), null, 2));
       setSearchReturn(JSON.stringify(await account.search(handle), null, 2));
+      setFindReturn(JSON.stringify(await account.find(uniqueHandle), null, 2));
     })()
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return(<>
     <h4>Integrate Account in your app</h4>
@@ -68,7 +82,7 @@ const account = new Account();`}
       {getReturn}
     </SyntaxHighlighter>
 
-    <h4>Get user profile by handle name</h4>
+    <h4>Search user profile by handle name</h4>
     <Input fullWidth
       spellCheck={false}
       aria-label="@handle"
@@ -82,6 +96,22 @@ const account = new Account();`}
     Return:
     <SyntaxHighlighter language="json" style={syntaxTheme}>
       {searchReturn}
+    </SyntaxHighlighter>
+
+    <h4>Find user profile by unique handle</h4>
+    <Input fullWidth
+      spellCheck={false}
+      aria-label="@handle"
+      labelLeft="@handle" 
+      value={uniqueHandle}
+      onChange={handleChangeUniqueHandle}
+    />
+    <SyntaxHighlighter language="javascript" style={syntaxTheme}>
+      {`await account.find("${uniqueHandle}");`}
+    </SyntaxHighlighter>
+    Return:
+    <SyntaxHighlighter language="json" style={syntaxTheme}>
+      {findReturn}
     </SyntaxHighlighter>
     
     <Grid.Container gap={1} justify="center" alignItems='center'>
