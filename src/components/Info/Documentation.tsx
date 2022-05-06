@@ -21,7 +21,9 @@ function Documentation({syntaxTheme}: {syntaxTheme: any}) {
 
     if(typingTimeout) clearTimeout(typingTimeout);
     typingTimeout = setTimeout(async () => {
-      setGetReturn(JSON.stringify(await account.get(walletAddr), null, 2));
+      setGetReturn("loading...");
+      const a = await account.get(walletAddr);
+      setGetReturn(JSON.stringify(a, null, 2));
     }, 300);
   }
 
@@ -31,7 +33,9 @@ function Documentation({syntaxTheme}: {syntaxTheme: any}) {
 
     if(typingTimeout) clearTimeout(typingTimeout);
     typingTimeout = setTimeout(async () => {
-      setSearchReturn(JSON.stringify(await account.search(handle), null, 2));
+      setSearchReturn("loading...");
+      const a = await account.search(handle);
+      setSearchReturn(JSON.stringify(a, null, 2));
     }, 300);
   }
 
@@ -41,7 +45,9 @@ function Documentation({syntaxTheme}: {syntaxTheme: any}) {
 
     if(typingTimeout) clearTimeout(typingTimeout);
     typingTimeout = setTimeout(async () => {
-      setFindReturn(JSON.stringify(await account.find(uniqueHandle), null, 2));
+      setFindReturn("loading...");
+      const a = await account.find(uniqueHandle);
+      setFindReturn(JSON.stringify(a, null, 2));
     }, 300);
   }
 
