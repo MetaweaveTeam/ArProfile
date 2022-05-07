@@ -1,7 +1,7 @@
-import { FormElement, Grid, Input } from '@nextui-org/react';
+import { Button, FormElement, Grid, Input } from '@nextui-org/react';
 import { FaGithub } from 'react-icons/fa';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import Account from 'arweave-account';
+import Account from '../../arweave-account/lib';
 import { useEffect, useState } from 'react';
 
 const account = new Account();
@@ -9,11 +9,11 @@ let typingTimeout: any = null;
 
 function Documentation({syntaxTheme}: {syntaxTheme: any}) {
   const [walletAddr, setWalletAddr] = useState("aIUmY9Iy4qoW3HOikTy6aJww-mM4Y-CUJ7mXoPdzdog");
-  const [getReturn, setGetReturn] = useState("");
+  const [getReturn, setGetReturn] = useState("loading...");
   const [handle, setHandle] = useState("cromatikap");
-  const [searchReturn, setSearchReturn] = useState("");
+  const [searchReturn, setSearchReturn] = useState("loading...");
   const [uniqueHandle, setUniqueHandle] = useState("cromatikap#aIUdog");
-  const [findReturn, setFindReturn] = useState("");
+  const [findReturn, setFindReturn] = useState("loading...");
 
   const handleChangeWalletAddr = (e: React.FormEvent<FormElement>) => {
     const walletAddr = e.currentTarget.value;
@@ -53,6 +53,7 @@ function Documentation({syntaxTheme}: {syntaxTheme: any}) {
 
   useEffect(() => {
     (async () => {
+      console.log("useEffect")
       setGetReturn(JSON.stringify(await account.get(walletAddr), null, 2));
       setSearchReturn(JSON.stringify(await account.search(handle), null, 2));
       setFindReturn(JSON.stringify(await account.find(uniqueHandle), null, 2));
@@ -69,8 +70,18 @@ function Documentation({syntaxTheme}: {syntaxTheme: any}) {
     <SyntaxHighlighter language="javascript" style={syntaxTheme}>
 {`import Account from 'arweave-account';
 ...
-const account = new Account();`}
+const account = new Account(opts);`}
     </SyntaxHighlighter>
+    An optional arguments object can be passed, here is an example with the default values:
+    <SyntaxHighlighter language="javascript" style={syntaxTheme}>
+{`const opts = {
+  cache: true,
+  cacheSize: 100,
+  cacheTime: 60
+};`}
+    </SyntaxHighlighter>
+
+    {/* <Button onClick={() => account.clearCache()}>clear arweave-account cache</Button> */}
 
     <h4>Get user profile by wallet address</h4>
     <Input fullWidth

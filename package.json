@@ -1,6 +1,6 @@
 {
   "name": "account",
-  "version": "0.1.1",
+  "version": "1.2.0",
   "private": true,
   "dependencies": {
     "@bundlr-network/client": "^0.5.16",
