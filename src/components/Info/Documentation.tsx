@@ -1,4 +1,4 @@
-import { Button, FormElement, Grid, Input } from '@nextui-org/react';
+import { FormElement, Grid, Input } from '@nextui-org/react';
 import { FaGithub } from 'react-icons/fa';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import Account from 'arweave-account';
