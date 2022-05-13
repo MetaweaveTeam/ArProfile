@@ -1,6 +1,5 @@
 import Arweave from 'arweave';
 import ArweaveMultiWallet from '../lib/ArweaveMultiWallet';
-import { T_walletName } from './types';
 
 const arweave = Arweave.init({
   host: 'arweave.net',// Hostname or IP address for a Arweave host
@@ -12,40 +11,7 @@ const arweave = Arweave.init({
 
 const AMW = new ArweaveMultiWallet(arweave);
 
-class Transaction {
-  private walletName: T_walletName;
-  
-  constructor(walletName: T_walletName){
-    this.walletName = walletName;
-    console.log("walletName", walletName);
-  }
-
-  public async broadcast(data: string, tags: {name: string, value: string}[]){
-    let response;
-
-    if(this.walletName === "arconnect" || this.walletName === "webwallet"){
-      try{
-        const tx = await arweave.createTransaction({data});
-        tags.map(tag => tx.addTag(tag.name, tag.value));
-        await arweave.transactions.sign(tx);
-        console.log("tx", tx);
-        response = {...await arweave.transactions.post(tx), txid: tx.id};
-      }
-      catch(e){
-        console.log("catch error: ", e);
-        response = null;
-      }
-    }
-    else { // this.walletName === "bundlr"
-      response = "yoooo";
-    }
-
-    return response;
-  }
-}
-
 export {
   arweave,
-  AMW,
-  Transaction,
+  AMW
 };
