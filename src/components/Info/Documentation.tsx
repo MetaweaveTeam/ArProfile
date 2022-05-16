@@ -1,7 +1,7 @@
 import { FormElement, Grid, Input } from '@nextui-org/react';
 import { FaGithub } from 'react-icons/fa';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import Account from 'arweave-account';
+import Account from '../../arweave-account/lib';
 import { useEffect, useState } from 'react';
 
 const account = new Account();
@@ -75,7 +75,7 @@ const account = new Account(opts);`}
     An optional arguments object can be passed, here is an example with the default values:
     <SyntaxHighlighter language="javascript" style={syntaxTheme}>
 {`const opts = {
-  cache: true,
+  cacheIsActivated: true,
   cacheSize: 100,
   cacheTime: 60
 };`}
