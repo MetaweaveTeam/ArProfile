@@ -20,6 +20,7 @@ import Account from '../arweave-account/lib';
 
 import EditProfileModale from './EditProfileModal';
 import { AMW } from '../utils/api';
+import AppsDataManager from './AppsDataManager';
 
 function Profile({addr, walletName, disconnectWallet}: {addr: T_addr, walletName: T_walletName, disconnectWallet: () => void}) {
 
@@ -116,6 +117,8 @@ function Profile({addr, walletName, disconnectWallet}: {addr: T_addr, walletName
               </DetailsS>
             </VertoIDinfo>
           </BoxVertoID>
+          <h2>Apps data manager</h2>
+          <AppsDataManager />
         </> : <>
           <div style={{
             fontSize: 'xx-large',
