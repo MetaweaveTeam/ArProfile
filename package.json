@@ -1,6 +1,6 @@
 {
   "name": "account",
-  "version": "1.2.3",
+  "version": "1.2.5",
   "private": true,
   "dependencies": {
     "@bundlr-network/client": "^0.5.16",
@@ -17,7 +17,7 @@
     "@types/react": "^17.0.39",
     "@types/react-dom": "^17.0.11",
     "ardb": "^1.1.10",
-    "arweave-account": "^1.2.2",
+    "arweave-account": "^1.2.5",
     "arweave-js": "^1.0.0",
     "arweave-wallet-connector": "^0.0.25",
     "assert": "^2.0.0",

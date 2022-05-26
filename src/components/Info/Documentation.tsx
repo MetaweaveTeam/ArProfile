@@ -1,7 +1,7 @@
 import { FormElement, Grid, Input } from '@nextui-org/react';
 import { FaGithub } from 'react-icons/fa';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import Account from '../../arweave-account/lib';
+import Account from 'arweave-account';
 import { useEffect, useState } from 'react';
 
 const account = new Account();
