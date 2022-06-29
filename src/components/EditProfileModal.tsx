@@ -1,17 +1,14 @@
 import {useEffect, useState} from 'react';
-import { T_addr, T_profile } from '../utils/types';
+import { T_addr } from '../utils/types';
 import { Modal, Text, Input, /*Row, Checkbox,*/ Button, Textarea, Loading, Grid, Spacer } from '@nextui-org/react';
 import { FaDiscord, FaTwitter, FaInstagram, FaFacebook, FaGithub } from 'react-icons/fa';
 import {AMW} from '../utils/api';
-import { protocolName } from '../static';
 import { AvatarS } from '../static/styles/Profile';
 import { BiUserCircle } from 'react-icons/bi';
+import Account, { ArProfile } from 'arweave-account';
 
-function EditProfileModale({addr, profile, isOpen, hasClosed}: {addr: T_addr, profile: T_profile | undefined, isOpen: boolean, hasClosed: () => void}) {
-  const [profileData, setProfileData] = useState<T_profile>({
-    addr: "",
-    links: {},
-  });
+function EditProfileModale({addr, profile, isOpen, hasClosed}: {addr: T_addr, profile: ArProfile | undefined, isOpen: boolean, hasClosed: () => void}) {
+  const [profileData, setProfileData] = useState<ArProfile>(profile ? profile : { handleName: "", links: {}});
   const [handleError, setHandleError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -19,25 +16,26 @@ function EditProfileModale({addr, profile, isOpen, hasClosed}: {addr: T_addr, pr
   const [pictureIsLoading, setPictureIsLoading] = useState(false);
 
   useEffect(() => {
-    if(profile && profile.handle)
-      setProfileData({...profile, handle: profile.handle.slice(0, -7)});
+    if(profile && profile.handleName)
+      setProfileData({...profile, handleName: profile.handleName});
   }, [profile]);
 
   const save = async () => {
-    if(!profileData.handle || (profileData.handle && profileData.handle.length) <= 0)
+    if(!profileData.handleName || (profileData.handleName && profileData.handleName.length) <= 0)
       setHandleError(true);
     else{
       console.log(profileData);
       setIsLoading(true);
-      const result = await AMW.write(JSON.stringify(profileData), [
-        {name: "Protocol-Name", value: protocolName},
-        {name: "handle", value: profileData.handle}
-      ]);
-      if(result)
-        alert("Your profile information has been saved. txid: "+result.txid+"\nPlease wait for miners to confirm the transaction.");
-      else
-        alert("something wrong happened :(");
-      console.log("save result: ", result);
+      const account = new Account();
+      await account.connect();
+      try {
+        const result = await account.updateProfile(profileData);
+        alert(`Your account has been successfully set! The network is processing your transaction: ${result.id}`);
+      }
+      catch(e) {
+        alert(`Sorry, something went wrong:\n${e}`);
+      }
+
       setIsLoading(false);
       hasClosed();
     }
@@ -139,9 +137,9 @@ function EditProfileModale({addr, profile, isOpen, hasClosed}: {addr: T_addr, pr
           placeholder="handle"
           contentLeft="@"
           status={handleError ? 'error' : 'default'}
-          value={profileData?.handle ? profileData.handle : ''}
+          value={profileData?.handleName ? profileData.handleName : ''}
           onChange={(e) => {
-            setProfileData({...profileData, handle: e.currentTarget.value})
+            setProfileData({...profileData, handleName: e.currentTarget.value})
             setHandleError(false);
           }}
           label={handleError ? 'Please write your handle name' : ''}

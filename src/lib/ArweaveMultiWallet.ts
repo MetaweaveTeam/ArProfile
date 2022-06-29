@@ -9,7 +9,8 @@ import { T_addr, T_walletName } from "../utils/types";
 const arConnectPermissions = [
   "ACCESS_ADDRESS",
   "ACCESS_ALL_ADDRESSES",
-  "SIGN_TRANSACTION"
+  "SIGN_TRANSACTION",
+  "DISPATCH"
 ];
 
 const webWallet = new ArweaveWebWallet({

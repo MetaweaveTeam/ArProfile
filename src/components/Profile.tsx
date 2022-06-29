@@ -15,15 +15,15 @@ import {
   VertoIDinfo,
 } from '../static/styles/Profile';
 
-import { T_addr, T_profile, T_walletName, T_txid } from '../utils/types';
-import Account from 'arweave-account';
+import { T_addr, T_walletName, T_txid } from '../utils/types';
+import Account, { ArProfile } from 'arweave-account';
 
 import EditProfileModale from './EditProfileModal';
 import { AMW } from '../utils/api';
 
 function Profile({addr, walletName, disconnectWallet}: {addr: T_addr, walletName: T_walletName, disconnectWallet: () => void}) {
 
-  const [profileData, setProfileData] = useState<T_profile>();
+  const [profileData, setProfileData] = useState<ArProfile>();
   const [profileTxid, setProfileTxid] = useState<T_txid>();
   const [isLoading, setIsLoading] = useState(true);
   const [hasFailed, setHasFailed] = useState<string | false>(false);
@@ -93,7 +93,7 @@ function Profile({addr, walletName, disconnectWallet}: {addr: T_addr, walletName
             <VertoIDinfo>
             {profileData.name && <Name>{profileData.name}</Name>}
               <UserAddr href={`https://viewblock.io/arweave/address/${addr}`} target="_blank" rel="noreferrer">
-                @{profileData.handle}
+                @{profileData.handleName}
               </UserAddr>
               <DetailsS>
                 <Bio>{profileData.bio}</Bio>
