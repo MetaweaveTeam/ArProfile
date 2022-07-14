@@ -1,7 +1,7 @@
 import { FormElement, Grid, Input } from '@nextui-org/react';
 import { FaGithub } from 'react-icons/fa';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import Account from 'arweave-account';
+import Account from '../../arweave-account/lib';
 import { useEffect, useState } from 'react';
 
 const account = new Account({cacheIsActivated: false});
@@ -22,8 +22,13 @@ function Documentation({syntaxTheme}: {syntaxTheme: any}) {
     if(typingTimeout) clearTimeout(typingTimeout);
     typingTimeout = setTimeout(async () => {
       setGetReturn("loading...");
-      const a = await account.get(walletAddr);
-      setGetReturn(JSON.stringify(a, null, 2));
+      try {
+        const a = await account.get(walletAddr)
+        setGetReturn(JSON.stringify(a, null, 2));
+      }
+      catch(e){
+        setGetReturn('Exception: ' + JSON.stringify(e, null, 2));
+      }
     }, 300);
   }
 
@@ -53,8 +58,13 @@ function Documentation({syntaxTheme}: {syntaxTheme: any}) {
 
   useEffect(() => {
     (async () => {
-      console.log("useEffect")
-      setGetReturn(JSON.stringify(await account.get(walletAddr), null, 2));
+      try {
+        const a = await account.get(walletAddr)
+        setGetReturn(JSON.stringify(a, null, 2));
+      }
+      catch(e){
+        setGetReturn(JSON.stringify(e, null, 2));
+      }
       setSearchReturn(JSON.stringify(await account.search(handle), null, 2));
       setFindReturn(JSON.stringify(await account.find(uniqueHandle), null, 2));
     })()

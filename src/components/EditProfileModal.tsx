@@ -5,10 +5,10 @@ import { FaDiscord, FaTwitter, FaInstagram, FaFacebook, FaGithub } from 'react-i
 import {AMW} from '../utils/api';
 import { AvatarS } from '../static/styles/Profile';
 import { BiUserCircle } from 'react-icons/bi';
-import Account, { ArProfile } from 'arweave-account';
+import Account, { ArProfile } from '../arweave-account/lib';
 
-function EditProfileModale({addr, profile, isOpen, hasClosed}: {addr: T_addr, profile: ArProfile | undefined, isOpen: boolean, hasClosed: () => void}) {
-  const [profileData, setProfileData] = useState<ArProfile>(profile ? profile : { handleName: "", links: {}});
+function EditProfileModale({addr, profile, isOpen, hasClosed}: {addr: T_addr, profile: ArProfile, isOpen: boolean, hasClosed: () => void}) {
+  const [profileData, setProfileData] = useState<ArProfile>(profile);
   const [handleError, setHandleError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 

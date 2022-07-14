@@ -16,16 +16,14 @@ import {
 } from '../static/styles/Profile';
 
 import { T_addr, T_walletName, T_txid } from '../utils/types';
-import Account, { ArProfile } from 'arweave-account';
+import Account, { ArAccount } from '../arweave-account/lib';
 
 import EditProfileModale from './EditProfileModal';
 import { AMW } from '../utils/api';
 
 function Profile({addr, walletName, disconnectWallet}: {addr: T_addr, walletName: T_walletName, disconnectWallet: () => void}) {
 
-  const [profileData, setProfileData] = useState<ArProfile>();
-  const [profileTxid, setProfileTxid] = useState<T_txid>();
-  const [isLoading, setIsLoading] = useState(true);
+  const [userAccount, setUserAccount] = useState<ArAccount>()
   const [hasFailed, setHasFailed] = useState<string | false>(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [balance, setBalance] = useState<string>();
@@ -35,28 +33,19 @@ function Profile({addr, walletName, disconnectWallet}: {addr: T_addr, walletName
       try {
         const account = new Account();
         const user = await account.get(addr);
-        if(user){
-          setProfileData(user.profile);
-          setProfileTxid(user.txid);
-          setBalance(await AMW.getBalance());
-        }
+        setUserAccount(user);
+        setBalance(await AMW.getBalance());
       }
       catch (e){
         console.log(e);
         setHasFailed(JSON.stringify(e));
       }
-      finally {
-        setIsLoading(false);
-      }
     })()
   }, [addr]);
 
   return(
-    <div className='gradient-border' style={{padding: '5px'}}>{isLoading
-    ? <Grid.Container gap={1} justify="center">
-        <Loading size="xl" css={{padding: '$24'}} color="success" />
-      </Grid.Container>
-    : hasFailed ? <>
+    <div className='gradient-border' style={{padding: '5px'}}>{
+      hasFailed ? <>
         <Spacer y={3}/>
         <Grid.Container gap={1} justify="center">
           <Text color="error">Something wrong happened :(</Text>
@@ -67,8 +56,8 @@ function Profile({addr, walletName, disconnectWallet}: {addr: T_addr, walletName
         </Grid.Container>
         <Spacer y={3}/>
       </>
-    : <>
-        <EditProfileModale addr={addr} profile={profileData} isOpen={modalIsOpen} hasClosed={() => setModalIsOpen(false)} />
+    : userAccount ? <>
+        <EditProfileModale addr={addr} profile={userAccount.profile} isOpen={modalIsOpen} hasClosed={() => setModalIsOpen(false)} />
 
         <Grid.Container gap={3} justify="space-between" alignItems='center'>
           <Button auto onClick={disconnectWallet} icon={<AiOutlinePoweroff size={18} />} color="error">Logout</Button>
@@ -79,68 +68,43 @@ function Profile({addr, walletName, disconnectWallet}: {addr: T_addr, walletName
           <Button auto onClick={() => setModalIsOpen(true)} iconRight={<FiEdit size={18} />} color="gradient">Edit Profile</Button>
         </Grid.Container>
         
-        {profileData ? <>
-          {profileTxid && <Grid.Container gap={2} justify="center">
-            <a href={`https://viewblock.io/arweave/tx/${profileTxid}`} target="_blank" rel="noreferrer" style={{fontFamily: "monospace", fontSize: "larger"}}>
-              txid: {profileTxid}
-            </a>
-          </Grid.Container>}
-          <BoxVertoID>
-            {profileData.avatar
-              ? <AvatarS src={`https://arweave.net/${profileData.avatar}`} sx={{ width: 200, height: 200 }} />
-              : <AvatarS sx={{ width: 200, height: 200, fontSize: 'xx-large', fontFamily: 'monospace' }}>#{addr.slice(0, 3)}{addr.slice(-3)}</AvatarS>
-            }
-            <VertoIDinfo>
-            {profileData.name && <Name>{profileData.name}</Name>}
-              <UserAddr href={`https://viewblock.io/arweave/address/${addr}`} target="_blank" rel="noreferrer">
-                @{profileData.handleName}
-              </UserAddr>
-              <DetailsS>
-                <Bio>{profileData.bio}</Bio>
-                {profileData.links.twitter && 
-                <UserSocial href={`https://twitter.com/${profileData.links.twitter}`} target="_blank" rel="noreferrer">
-                  <FaTwitter size={25} />
-                </UserSocial>}
-                {profileData.links.github && <UserSocial href={`https://github.com/${profileData.links.github}`} target="_blank" rel="noreferrer">
-                  <FaGithub size={25} />
-                </UserSocial>}
-                {profileData.links.instagram && <UserSocial href={`https://instagram.com/${profileData.links.instagram}`} target="_blank" rel="noreferrer">
-                  <FaInstagram size={25} />
-                </UserSocial>}
-                {profileData.links.facebook && <UserSocial href={`https://facebook.com/${profileData.links.facebook}`} target="_blank" rel="noreferrer">
-                  <FaFacebook size={25} />
-                </UserSocial>}
-                {profileData.links.discord && <span>
-                  <FaDiscord size={25} /> {profileData.links.discord}
-                </span>}
-              </DetailsS>
-            </VertoIDinfo>
-          </BoxVertoID>
-        </> : <>
-          <div style={{
-            fontSize: 'xx-large',
-            textAlign: 'center',
-            padding: '70px',
-            alignItems: 'center',
-            display: 'flex',
-            flexDirection: 'column'
-          }}>
-            <div>
-              Hello{` `}
-              <span style={{
-                fontSize: '',
-                fontFamily: 'monospace'
-              }}>
-                <a href={`https://viewblock.io/arweave/address/${addr}`} target="_blank" rel="noreferrer">
-                  {`${addr.slice(0,5)}...${addr.slice(addr.length-5, addr.length)}`}
-                </a>
-              </span>
-              {` 🙂`}
-            </div>
-            <Button onClick={() => setModalIsOpen(true)} color="success" size="xl" css={{marginTop: '30px'}}>Activate my Account</Button>
-          </div>
-        </>}
-      </>}
+        {userAccount.txid && <Grid.Container gap={2} justify="center">
+          <a href={`https://viewblock.io/arweave/tx/${userAccount.txid}`} target="_blank" rel="noreferrer" style={{fontFamily: "monospace", fontSize: "larger"}}>
+            txid: {userAccount.txid}
+          </a>
+        </Grid.Container>}
+        <BoxVertoID>
+          <AvatarS src={userAccount.profile.avatarURL} sx={{ width: 200, height: 200 }} />
+          <VertoIDinfo>
+            <Name>{userAccount.profile.name}</Name>
+            <UserAddr href={`https://viewblock.io/arweave/address/${addr}`} target="_blank" rel="noreferrer">
+              {userAccount.handle}
+            </UserAddr>
+            <DetailsS>
+              <Bio>{userAccount.profile.bio}</Bio>
+              {userAccount.profile.links.twitter && 
+              <UserSocial href={`https://twitter.com/${userAccount.profile.links.twitter}`} target="_blank" rel="noreferrer">
+                <FaTwitter size={25} />
+              </UserSocial>}
+              {userAccount.profile.links.github && <UserSocial href={`https://github.com/${userAccount.profile.links.github}`} target="_blank" rel="noreferrer">
+                <FaGithub size={25} />
+              </UserSocial>}
+              {userAccount.profile.links.instagram && <UserSocial href={`https://instagram.com/${userAccount.profile.links.instagram}`} target="_blank" rel="noreferrer">
+                <FaInstagram size={25} />
+              </UserSocial>}
+              {userAccount.profile.links.facebook && <UserSocial href={`https://facebook.com/${userAccount.profile.links.facebook}`} target="_blank" rel="noreferrer">
+                <FaFacebook size={25} />
+              </UserSocial>}
+              {userAccount.profile.links.discord && <span>
+                <FaDiscord size={25} /> {userAccount.profile.links.discord}
+              </span>}
+            </DetailsS>
+          </VertoIDinfo>
+        </BoxVertoID>
+      </>
+    : <Grid.Container gap={1} justify="center">
+        <Loading size="xl" css={{padding: '$24'}} color="success" />
+      </Grid.Container>}
     </div>
   );
 }
