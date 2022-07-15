@@ -114,16 +114,14 @@ function EditProfileModale({addr, profile, isOpen, hasClosed}: {addr: T_addr, pr
                   {pictureIsLoading ? <Loading color="white" size="sm" /> : 'Upload'}
                 </Button>
               </>
-              : profileData.avatar
-              ? <AvatarS src={`https://arweave.net/${profileData.avatar}`} sx={{ width: 200, height: 200 }} />
-              : <AvatarS sx={{ width: 200, height: 200, fontSize: 'xx-large', fontFamily: 'monospace' }}>#{addr.slice(0, 3)}{addr.slice(-3)}</AvatarS>
+              : <AvatarS src={profileData.avatarURL} sx={{ width: 200, height: 200 }} />
             }
           </label>
         </Grid.Container>
         <Input
           disabled
           contentLeft={<BiUserCircle />}
-          value={profileData?.avatar ? `${profileData.avatar.slice(0,5)}...${profileData.avatar.slice(-5)}` : ''} placeholder="txid"
+          value={profileData.avatar} placeholder="Avatar URI"
           aria-label='avatar txid'
         />
         <Spacer y={1}/>
