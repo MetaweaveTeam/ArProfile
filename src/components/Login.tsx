@@ -63,14 +63,14 @@ function Login({onClick}: {onClick?: () => void}) {
           <img src={icons.arconnect} alt="ArConnect" />
           <h4>ArConnect</h4>
         </div>
-        <div className="wallet" onClick={async () => {
+        {/* <div className="wallet" onClick={async () => {
           setIsLoading(true);
           await login.bundlr();
           setIsLoading(false);
         }}>
           <img src={icons.bundlr} alt="Bundlr network" />
           <h4>Bundlr ($MATIC)</h4>
-        </div>
+        </div> */}
         <div className="wallet" onClick={async () => {
           setIsLoading(true);
           await login.arweaveWebWallet();

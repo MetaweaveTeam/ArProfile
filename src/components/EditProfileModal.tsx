@@ -5,7 +5,7 @@ import { FaDiscord, FaTwitter, FaInstagram, FaFacebook, FaGithub } from 'react-i
 import {AMW} from '../utils/api';
 import { AvatarS } from '../static/styles/Profile';
 import { BiUserCircle } from 'react-icons/bi';
-import Account, { ArProfile } from '../arweave-account/lib';
+import Account, { ArProfile } from 'arweave-account';
 
 function EditProfileModale({addr, profile, isOpen, hasClosed}: {addr: T_addr, profile: ArProfile, isOpen: boolean, hasClosed: () => void}) {
   const [profileData, setProfileData] = useState<ArProfile>(profile);

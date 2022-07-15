@@ -15,8 +15,8 @@ import {
   VertoIDinfo,
 } from '../static/styles/Profile';
 
-import { T_addr, T_walletName, T_txid } from '../utils/types';
-import Account, { ArAccount } from '../arweave-account/lib';
+import { T_addr, T_walletName } from '../utils/types';
+import Account, { ArAccount } from 'arweave-account';
 
 import EditProfileModale from './EditProfileModal';
 import { AMW } from '../utils/api';
