@@ -27,8 +27,8 @@ function EditProfileModale({addr, profile, isOpen, hasClosed}: {addr: T_addr, pr
       console.log(profileData);
       setIsLoading(true);
       const account = new Account();
-      await account.connect();
       try {
+        await account.connect();
         const result = await account.updateProfile(profileData);
         alert(`Your account has been successfully set! The network is processing your transaction: ${result.id}`);
       }
@@ -64,7 +64,7 @@ function EditProfileModale({addr, profile, isOpen, hasClosed}: {addr: T_addr, pr
           try{
             const result = await AMW.write(reader.result, [{name: "Content-Type", value: picture.type}]);
             console.log("picture result", result);
-            setProfileData({...profileData, avatar: result.txid})
+            setProfileData({...profileData, avatar: 'ar://' + result.txid})
           }
           catch(e){
             alert("Upload failed :( error in the console");

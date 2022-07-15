@@ -4,7 +4,7 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import Account from '../../arweave-account/lib';
 import { useEffect, useState } from 'react';
 
-const account = new Account({cacheIsActivated: false});
+const account = new Account({cacheTime: 3000});
 let typingTimeout: any = null;
 
 function Documentation({syntaxTheme}: {syntaxTheme: any}) {
