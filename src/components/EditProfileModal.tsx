@@ -2,10 +2,11 @@ import {useEffect, useState} from 'react';
 import { T_addr } from '../utils/types';
 import { Modal, Text, Input, /*Row, Checkbox,*/ Button, Textarea, Loading, Grid, Spacer } from '@nextui-org/react';
 import { FaDiscord, FaTwitter, FaInstagram, FaFacebook, FaGithub } from 'react-icons/fa';
-import {AMW} from '../utils/api';
+import {arweave} from '../utils/api';
 import { AvatarS } from '../static/styles/Profile';
 import { BiUserCircle } from 'react-icons/bi';
 import Account, { ArProfile } from 'arweave-account';
+import { parse } from 'node:path/win32';
 
 function EditProfileModale({addr, profile, isOpen, hasClosed}: {addr: T_addr, profile: ArProfile, isOpen: boolean, hasClosed: () => void}) {
   const [profileData, setProfileData] = useState<ArProfile>(profile);
@@ -14,6 +15,7 @@ function EditProfileModale({addr, profile, isOpen, hasClosed}: {addr: T_addr, pr
 
   const [picture, setPicture] = useState<{blobUrl: string, type: string} | null>(null);
   const [pictureIsLoading, setPictureIsLoading] = useState(false);
+  const [isUploaded, setIsUploaded] = useState(false);
 
   useEffect(() => {
     if(profile && profile.handleName)
@@ -49,6 +51,7 @@ function EditProfileModale({addr, profile, isOpen, hasClosed}: {addr: T_addr, pr
         blobUrl: URL.createObjectURL(files[0]),
         type: files[0].type
       });
+      setIsUploaded(false);
     }
     e.currentTarget.files = null;
   };
@@ -62,16 +65,32 @@ function EditProfileModale({addr, profile, isOpen, hasClosed}: {addr: T_addr, pr
       reader.addEventListener('loadend', async () => {
         if(reader.result){
           try{
-            const result = await AMW.write(reader.result, [{name: "Content-Type", value: picture.type}]);
+            let tx = await arweave.createTransaction({ data:reader.result })
+            tx.addTag('Content-Type',picture.type)
+
+            const winstons = await arweave.wallets.getBalance(addr);
+            const balance = parseFloat(winstons);
+            const fee = parseFloat(tx.reward);
+            const numBytes = parseInt(tx.data_size);
+
+            if (balance < fee && numBytes > 102400) {
+              alert("Upload failed: Not enough funds in your wallet.\n\nTransfer some AR tokens to your wallet or try an image smaller than 100KB in size.");
+              throw Error("Not enough funds");
+            }
+
+            //@ts-ignore arweave-js does not have the latest arconnect type defitions that include 'dispatch()'
+            let result = await window.arweaveWallet.dispatch(tx);
+            console.log(tx);
             console.log("picture result", result);
-            setProfileData({...profileData, avatar: 'ar://' + result.txid})
+            setProfileData({...profileData, avatar: `ar://${result.id}`});
+            setIsUploaded(true);
           }
           catch(e){
             alert("Upload failed :( error in the console");
+            console.error(e);
           }
           finally{
-            setPictureIsLoading(false);
-            setPicture(null);
+             setPictureIsLoading(false);
           }
         }
       });
@@ -107,14 +126,16 @@ function EditProfileModale({addr, profile, isOpen, hasClosed}: {addr: T_addr, pr
                 <Button auto
                   color="gradient"
                   style={{
-                    position: 'absolute'
+                    position: 'absolute',
+                    visibility: isUploaded ? 'hidden' : 'visible'
                   }}
                   onClick={uploadPicture}
                 >
                   {pictureIsLoading ? <Loading color="white" size="sm" /> : 'Upload'}
                 </Button>
               </>
-              : <AvatarS src={profileData.avatarURL} sx={{ width: 200, height: 200 }} />
+              : 
+              <AvatarS src={profileData.avatarURL} sx={{ width: 200, height: 200 }} />
             }
           </label>
         </Grid.Container>

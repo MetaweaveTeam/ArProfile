@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { arweave } from '../utils/api';
 import { AiOutlinePoweroff } from 'react-icons/ai';
 import { FiEdit } from 'react-icons/fi';
 import { FaTwitter, FaInstagram, FaFacebook, FaGithub, FaDiscord } from 'react-icons/fa';
@@ -19,7 +20,18 @@ import { T_addr, T_walletName } from '../utils/types';
 import Account, { ArAccount } from 'arweave-account';
 
 import EditProfileModale from './EditProfileModal';
-import { AMW } from '../utils/api';
+
+async function getBalance() {
+  const address = await window.arweaveWallet?.getActiveAddress();
+  if (address) {
+      const winstons = await arweave.wallets.getBalance(address);
+      let ar = arweave.ar.winstonToAr(winstons);
+      let balance = parseFloat(ar);
+      return `${balance.toFixed(2)} AR`;
+  }
+  return `?? AR`
+}
+
 
 function Profile({addr, walletName, disconnectWallet}: {addr: T_addr, walletName: T_walletName, disconnectWallet: () => void}) {
 
@@ -34,7 +46,7 @@ function Profile({addr, walletName, disconnectWallet}: {addr: T_addr, walletName
         const account = new Account();
         const user = await account.get(addr);
         setUserAccount(user);
-        setBalance(await AMW.getBalance());
+        setBalance(await getBalance());
       }
       catch (e){
         console.log(e);

@@ -1,50 +1,59 @@
 import {useContext, useEffect, useState} from 'react';
-import useArConnect from 'use-arconnect';
 import { icons } from '../static';
 import Profile from './Profile';
 import { T_walletName } from '../utils/types';
 import {Grid, Loading} from '@nextui-org/react';
 import ctx from '../utils/ctx';
-import { AMW } from '../utils/api';
+import { webWallet } from '../utils/api'
+
+async function connectWallet(walletName:T_walletName) {
+  switch(walletName) {
+    case 'arconnect':
+      //@ts-ignore arweave-js does not have the latest arconnect type defitions that include 'DISPATCH'
+      await window.arweaveWallet.connect(['ACCESS_ADDRESS','ACCESS_ALL_ADDRESSES','SIGN_TRANSACTION','DISPATCH']);
+      break;
+    case 'webwallet':
+      await webWallet.connect();
+      webWallet.on('change', () => {})
+      break;
+    default:
+      throw new Error(`Attempted to connect unknown wallet ${walletName}`);
+  }
+  return await window.arweaveWallet.getActiveAddress();
+}
 
 function Login({onClick}: {onClick?: () => void}) {
   const {theme} = useContext(ctx);
-  const arConnect = useArConnect();
   const [addr, setaddr] = useState<string | null>(null);
   const [walletName, setWalletName] = useState<T_walletName>();
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (!arConnect) return;
+    if (!window.arweaveWallet?.getPermissions) return;
     (async () => {
       try {
-        if ((await arConnect.getPermissions()).includes("ACCESS_ADDRESS")) {
-          setaddr(await arConnect.getActiveAddress());
+        if ((await window.arweaveWallet.getPermissions()).includes("ACCESS_ADDRESS")) {
+          setaddr(await window.arweaveWallet.getActiveAddress());
         }
       } catch {
         alert("Error: Could not get ACCESS_ADDRESS permission");
       }
     })();
-  }, [arConnect, addr, setaddr]);
+  }, [addr, setaddr]);
 
   const disconnectWallet = async () => {
-    await AMW.disconnect();
+    await window.arweaveWallet?.disconnect();
     setaddr(null);
   };
 
   const login = {
     arconnect: async () => {
-      setaddr(await AMW.connect("arconnect", arConnect));
+      setaddr(await connectWallet("arconnect"));
       setWalletName("arconnect");
     },
     arweaveWebWallet: async () => {
-      setaddr(await AMW.connect("webwallet"));
+      setaddr(await connectWallet("webwallet"));
       setWalletName("webwallet");
-    },
-    bundlr: async () => {
-      console.log("bundlr");
-      setaddr(await AMW.connect("bundlr"));
-      setWalletName("bundlr");
     }
   }
 

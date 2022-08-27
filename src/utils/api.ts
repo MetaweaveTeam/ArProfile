@@ -1,5 +1,6 @@
 import Arweave from 'arweave';
-import ArweaveMultiWallet from '../lib/ArweaveMultiWallet';
+import { ArweaveWebWallet } from "arweave-wallet-connector";
+import { icons } from "../static";
 
 const arweave = Arweave.init({
   host: 'arweave.net',// Hostname or IP address for a Arweave host
@@ -9,9 +10,13 @@ const arweave = Arweave.init({
   logging: false,
 });
 
-const AMW = new ArweaveMultiWallet(arweave);
+const webWallet = new ArweaveWebWallet({
+	name: 'Account',
+	logo: icons.metaweave
+});
+webWallet.setUrl('arweave.app');
 
 export {
   arweave,
-  AMW
+  webWallet
 };
