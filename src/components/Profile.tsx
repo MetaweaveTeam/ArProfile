@@ -17,7 +17,7 @@ import {
 } from '../static/styles/Profile';
 
 import { T_addr, T_walletName } from '../utils/types';
-import Account, { ArAccount } from 'arweave-account';
+import Account, { ArAccount } from '../arweave-account/lib';
 
 import EditProfileModale from './EditProfileModal';
 
