@@ -6,7 +6,6 @@ import {arweave} from '../utils/api';
 import { AvatarS } from '../static/styles/Profile';
 import { BiUserCircle } from 'react-icons/bi';
 import Account, { ArProfile } from 'arweave-account';
-import { parse } from 'node:path/win32';
 
 function EditProfileModale({addr, profile, isOpen, hasClosed}: {addr: T_addr, profile: ArProfile, isOpen: boolean, hasClosed: () => void}) {
   const [profileData, setProfileData] = useState<ArProfile>(profile);
@@ -90,7 +89,7 @@ function EditProfileModale({addr, profile, isOpen, hasClosed}: {addr: T_addr, pr
             console.error(e);
           }
           finally{
-             setPictureIsLoading(false);
+            setPictureIsLoading(false);
           }
         }
       });
