@@ -7,6 +7,12 @@ import { AvatarS } from '../static/styles/Profile';
 import { BiUserCircle } from 'react-icons/bi';
 import Account, { ArProfile } from 'arweave-account';
 
+/*
+ *  ACCEPTED_DISPATCH_SIZE comes from https://github.com/th8ta/ArConnect/blob/e36880e3b2b363e356f7f08b19281351998a9cbe/src/api/modules/dispatch/index.ts#L17
+ *  This is a workaround until the following issue is solved: https://github.com/th8ta/ArConnect/issues/88
+ */
+const ACCEPTED_DISPATCH_SIZE = 120 * Math.pow(10, 3);
+
 function EditProfileModale({addr, profile, isOpen, hasClosed}: {addr: T_addr, profile: ArProfile, isOpen: boolean, hasClosed: () => void}) {
   const [profileData, setProfileData] = useState<ArProfile>(profile);
   const [handleError, setHandleError] = useState(false);
@@ -72,16 +78,20 @@ function EditProfileModale({addr, profile, isOpen, hasClosed}: {addr: T_addr, pr
             const fee = parseFloat(tx.reward);
             const numBytes = parseInt(tx.data_size);
 
-            if (balance < fee && numBytes > 102400) {
+            if(numBytes <= ACCEPTED_DISPATCH_SIZE) {
+              //@ts-ignore arweave-js does not have the latest arconnect type defitions that include 'dispatch()'
+              let result = await window.arweaveWallet.dispatch(tx);
+              setProfileData({...profileData, avatar: `ar://${result.id}`});
+            }
+            else if (balance >= fee) {
+              await arweave.transactions.sign(tx);
+              await arweave.transactions.post(tx);
+              setProfileData({...profileData, avatar: `ar://${tx.id}`});
+            }
+            else {
               alert("Upload failed: Not enough funds in your wallet.\n\nTransfer some AR tokens to your wallet or try an image smaller than 100KB in size.");
               throw Error("Not enough funds");
             }
-
-            //@ts-ignore arweave-js does not have the latest arconnect type defitions that include 'dispatch()'
-            let result = await window.arweaveWallet.dispatch(tx);
-            console.log(tx);
-            console.log("picture result", result);
-            setProfileData({...profileData, avatar: `ar://${result.id}`});
             setIsUploaded(true);
           }
           catch(e){
