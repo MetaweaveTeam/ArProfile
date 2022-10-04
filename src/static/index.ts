@@ -1,5 +1,5 @@
 const icons = {
-  metaweave: "https://hdizngmzo3uexbqdliqwnvbady3fc7oimdychee4nx7aew5xvuya.arweave.net/ONGWmZl26EuGA1ohZtQgHjZRfchg8COQnG3-Alu3rTA",
+  account: "https://vhanrqnqrmiz7jyxuvkjvqrsee62hr4vbrum7b32cxpzu67d3guq.arweave.net/qcDYwbCLEZ-nF6VUmsIyIT2jx5UMaM-HehXfmnvj2ak",
   arconnect: "https://bgwysvp67cg4wxfsvgktephcajni7ggdsa7kgpo5rl637avdlc2a.arweave.net/Ca2JVf74jctcsqmVMjziAlqPmMOQPqM93Yr9v4KjWLQ",
   arweaveWebWallet: {
     light: "https://447qnhgpfysd6lldblkl3hrfwgw45fv3ge32kketbyqbq6cf.arweave.net/5z8GnM8uJD8tYwrUv--Z4lsa3OlrsxN6Uokw4gGHhFc",

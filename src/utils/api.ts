@@ -12,7 +12,7 @@ const arweave = Arweave.init({
 
 const webWallet = new ArweaveWebWallet({
 	name: 'Account',
-	logo: icons.metaweave
+	logo: icons.account
 });
 webWallet.setUrl('arweave.app');
 
