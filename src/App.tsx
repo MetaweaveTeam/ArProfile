@@ -8,7 +8,6 @@ import {GlobalStyles} from './static/styles/global';
 import { useState } from 'react';
 import ctx from './utils/ctx';
 import { Grid } from '@nextui-org/react';
-import {ImProfile} from 'react-icons/im';
 import {IoMdWallet} from 'react-icons/io';
 import {BsPatchQuestion, BsCodeSlash} from 'react-icons/bs';
 import Documentation from './components/Info/Documentation';
@@ -17,8 +16,8 @@ import About from './components/Info/About';
 const Body = ({syntaxTheme}: {syntaxTheme: any}) =>
   (<div className="App">
     <header>
-      <h1>Account</h1>
-      <ImProfile size={230} />
+      <h1>ArProfile</h1>
+      <img style={{width: '300px', marginTop: 0}} src="https://arweave.net/aKIwse_933T-oQpxJnyj-DP0pG03k_88Iw04EbHoolk" alt="logo" />
       <h2>
         Your identity on the <a href="https://arweave.org" target="_blank" rel="noreferrer">permaweb</a>.
       </h2>
@@ -29,7 +28,7 @@ const Body = ({syntaxTheme}: {syntaxTheme: any}) =>
         <ThemeSwitch />
       </Grid.Container>
       <Login />
-      <h3><BsPatchQuestion />What is Account?</h3>
+      <h3><BsPatchQuestion />What is ArProfile?</h3>
       <About />
       <h3><BsCodeSlash />Buidlers</h3>
       <Documentation syntaxTheme={syntaxTheme} />

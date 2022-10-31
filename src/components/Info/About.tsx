@@ -1,14 +1,14 @@
 function About() {
   return(<>
     <h4>Permanent, decentralized, owned by you.</h4>
-    <p>Account is the next generation of arweave-id and Verto ID combined together.</p>
+    <p>ArProfile is an Arweave native DID</p>
     <p>
-      The account protocol aim to satisfy essential needs for social interactions between users: an avatar, a unique @handle, a name and a bio. It also includes the possibility to add accounts from the well known social networks such as Twitter, Discord, Github, Instagram and Facebook.
+      The underlying account protocol aims to satisfy essential needs for social interactions between users: an avatar, a unique @handle, a name and a bio. It also includes the possibility to add accounts from the well known social networks such as Twitter, Discord, Github, Instagram and Facebook.
     </p>
     <h4>Reusable Arweave component.</h4>
     
     <p>
-      For developers, this app gives your users an access to edit their account without the burden of creating a new UI in your project. And because it's a permanent app, you can be sure that the interaction with the protocol stays always the same, no painful update ahead.
+      For developers, this app gives your users an access to edit their profile without the burden of creating a new UI in your project. And because it's a permanent app, you can be sure that the interaction with the protocol stays always the same, no painful update ahead.
     </p>
     <h4>Scalable.</h4>
     <p>
