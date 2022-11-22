@@ -5,7 +5,7 @@ import { FaDiscord, FaTwitter, FaInstagram, FaFacebook, FaGithub } from 'react-i
 import {arweave} from '../utils/api';
 import { AvatarS } from '../static/styles/Profile';
 import { BiUserCircle } from 'react-icons/bi';
-import Account, { ArProfile } from 'arweave-account';
+import Account, { ArProfile } from '../arweave-account/lib';
 
 /*
  *  ACCEPTED_DISPATCH_SIZE comes from https://github.com/th8ta/ArConnect/blob/e36880e3b2b363e356f7f08b19281351998a9cbe/src/api/modules/dispatch/index.ts#L17
