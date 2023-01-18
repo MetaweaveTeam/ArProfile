@@ -31,7 +31,7 @@ const Body = ({syntaxTheme}: {syntaxTheme: any}) =>
       <Login />
       <h3><BsPatchQuestion />What is ArProfile?</h3>
       <About />
-      <h3><BsFillHeartFill />They trust us</h3>
+      <h3><BsFillHeartFill />A profile that follows you accross the ecosystem</h3>
       <Using />
       <h3><BsCodeSlash />Buidlers</h3>
       <Documentation syntaxTheme={syntaxTheme} />

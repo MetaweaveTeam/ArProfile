@@ -1,4 +1,4 @@
-import { Grid, Image, theme } from "@nextui-org/react";
+import { Container, Link, Row } from "@nextui-org/react";
 import { useContext } from 'react';
 import ctx from '../../utils/ctx';
 
@@ -6,21 +6,9 @@ function Using() {
   const {theme} = useContext(ctx);
   const images = [
     {
-      name: "ArProfile",
-      url: "https://arprofile.org/",
-      image: "https://arweave.net/zRHY7Gask1nWroictBm3MEqqq1yeqtrQ2OwoacUXsZA",
-      imageDark: "",
-    },
-    {
       name: "ArCode",
       url: "https://arcode.studio/",
       image: "https://arweave.net/Hv5LYvZtqGXI02EBGhT7Bk_yW0DCIEqZn-D41Ql3JSU",
-      imageDark: "",
-    },
-    {
-      name: "ArConnect",
-      url: "https://arconnect.io",
-      image: "https://arweave.net/_ANb4DQBuXAI3dBBWVJhgs0tr6eoipGnfOquaSFBmkc",
       imageDark: "",
     },
     {
@@ -54,27 +42,9 @@ function Using() {
       imageDark: "",
     },
     {
-      name: "Permamail",
-      url: "https://permamail.app/",
-      image: "https://arweave.net/5H8cnvDCIo309uvMrylMbgI_7TX-Bpb_Q_ECFpFOG0I",
-      imageDark: "",
-    },
-    {
-      name: "Wavehub",
-      url: "", // TODO: Add URL
-      image: "https://arweave.net/2dP-_mZsou6EHgUNR8jyrdqh9KLkw_cWYWGdFS7rHcA",
-      imageDark: "https://arweave.net/budlMdULr9phyaeGVtLfTnGexk4t8iSmYNCLTdboexc",
-    },
-    {
-      name: "PublicSquareColor",
+      name: "Public Square",
       url: "", // TODO: Add URL
       image: "https://arweave.net/OFu9XH1SvFgCfYH1vySrTFkObor2jl65SgaXrOHiQVA",
-      imageDark: "",
-    },
-    {
-      name: "Narrative",
-      url: "", // TODO: Add URL
-      image: "https://arweave.net/EbKnok8ms1vTAtZw15JaNVjY4inJsSsyWQeA-GR_i3U",
       imageDark: "",
     },
     {
@@ -84,28 +54,22 @@ function Using() {
       imageDark: "",
     },
     {
-      name: "Multiwallet",
+      name: "Narrative",
       url: "", // TODO: Add URL
-      image: "https://arweave.net/1FRd_VRd2Zvkv9DI6LSowgTK3jqTwbUXAMd6NTJ2fi0",
-      imageDark: "",
-    },
-    {
-      name: "Arweave",
-      url: "https://arweave.org/",
-      image: "https://arweave.net/pzSXvJQ-F9bBRuzYfrdDRUu_QmRtP1LO3IZro16kKIQ",
-      imageDark: "https://arweave.net/3uEZeT6rxgeuzeYUrlejQBljzT6GeiwoHwG8xMofueI",
-    },
+      image: "https://arweave.net/Ex8fhA04tdwHSMbcddgNOVgczmmlXLnxuAioiuosc8c",
+      imageDark: "https://arweave.net/esU7vUgQ1AHmxJJKK7ZJkbdavNmlbWdN2KZhg5CWxGA",
+    }
   ];
   return(<>
-    <Grid.Container gap={2} justify="center">
-      {images.map((i) => (
-        <Grid xs={3} key={i.name}>
-          <a href={i.url} target="_blank" rel="noreferrer">
-            <Image src={theme && i.imageDark ? i.imageDark : i.image} width="100%" height="100px" />
-          </a>
-        </Grid>
-      ))}
-    </Grid.Container>
+    <Container display="flex">
+      <Row wrap="wrap" justify="space-around" gap={2}>
+        {images.map((i,j) => (
+          <Link key={j} href={i.url} target="_blank" rel="noreferrer" style={{padding: '5px'}}>
+            <img src={theme && i.imageDark ? i.imageDark : i.image} height="50px"/>
+          </Link>
+        ))}
+        </Row>
+    </Container>
   </>);
 }
 
