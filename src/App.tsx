@@ -9,9 +9,10 @@ import { useState } from 'react';
 import ctx from './utils/ctx';
 import { Grid } from '@nextui-org/react';
 import {IoMdWallet} from 'react-icons/io';
-import {BsPatchQuestion, BsCodeSlash} from 'react-icons/bs';
+import {BsPatchQuestion, BsCodeSlash, BsFillHeartFill} from 'react-icons/bs';
 import Documentation from './components/Info/Documentation';
 import About from './components/Info/About';
+import Using from './components/Info/Using';
 
 const Body = ({syntaxTheme}: {syntaxTheme: any}) =>
   (<div className="App">
@@ -30,6 +31,8 @@ const Body = ({syntaxTheme}: {syntaxTheme: any}) =>
       <Login />
       <h3><BsPatchQuestion />What is ArProfile?</h3>
       <About />
+      <h3><BsFillHeartFill />A profile that follows you accross the ecosystem</h3>
+      <Using />
       <h3><BsCodeSlash />Buidlers</h3>
       <Documentation syntaxTheme={syntaxTheme} />
     </main>
