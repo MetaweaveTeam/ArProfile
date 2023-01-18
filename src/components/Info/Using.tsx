@@ -65,7 +65,7 @@ function Using() {
       <Row wrap="wrap" justify="space-around" gap={2}>
         {images.map((i,j) => (
           <Link key={j} href={i.url} target="_blank" rel="noreferrer" style={{padding: '5px'}}>
-            <img src={theme && i.imageDark ? i.imageDark : i.image} height="50px"/>
+            <img src={theme && i.imageDark ? i.imageDark : i.image} height="50px" alt={`${i.name} logo`} />
           </Link>
         ))}
         </Row>
