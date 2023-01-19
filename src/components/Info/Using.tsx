@@ -37,20 +37,14 @@ function Using() {
     },
     {
       name: "Stamps",
-      url: "", // TODO: Add URL
+      url: "https://stamps.arweave.dev/", // TODO: Add URL
       image: "https://arweave.net/v-9W766HEXzy6FNJ3ug2gSMla261Je7-joXsYq7epYc",
       imageDark: "",
     },
     {
       name: "Public Square",
-      url: "", // TODO: Add URL
+      url: "https://public-square.arweave.dev/", // TODO: Add URL
       image: "https://arweave.net/OFu9XH1SvFgCfYH1vySrTFkObor2jl65SgaXrOHiQVA",
-      imageDark: "",
-    },
-    {
-      name: "QuackerApp",
-      url: "", // TODO: Add URL
-      image: "https://arweave.net/lOc_hyCxQdTOLDB8MPI8n2n0mZ-JlXoRgZ_fyNI0cyk",
       imageDark: "",
     },
     {
