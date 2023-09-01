@@ -12,6 +12,13 @@ header img {
   margin-top: 3rem;
 }
 
+header #app-version {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  font-size: small;
+}
+
 h1 {font-size: calc(3rem + 50*(100vw - 280px)/1520);}
 h2 {font-size: calc(1rem + 30*(100vw - 280px)/1520);}
 h3 {

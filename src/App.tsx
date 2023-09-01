@@ -13,6 +13,7 @@ import {BsPatchQuestion, BsCodeSlash, BsFillHeartFill} from 'react-icons/bs';
 import Documentation from './components/Info/Documentation';
 import About from './components/Info/About';
 import Using from './components/Info/Using';
+const appVersion = require('../package.json').version;
 
 const Body = ({syntaxTheme}: {syntaxTheme: any}) =>
   (<div className="App">
@@ -22,6 +23,7 @@ const Body = ({syntaxTheme}: {syntaxTheme: any}) =>
       <h2>
         Your identity on the <a href="https://arweave.org" target="_blank" rel="noreferrer">permaweb</a>.
       </h2>
+      <div id="app-version">{ appVersion }</div>
     </header>
     <main>
       <Grid.Container justify="space-between" alignItems="center">
