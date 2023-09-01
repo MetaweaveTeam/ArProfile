@@ -28,7 +28,7 @@ function EditProfileModale({addr, profile, isOpen, hasClosed}: {addr: T_addr, pr
   }, [profile]);
 
   const save = async () => {
-    if(!profileData.handleName || (profileData.handleName && profileData.handleName.length) <= 0)
+    if(!profileData.handleName || (profileData.handleName && profileData.handleName.length <= 0))
       setHandleError(true);
     else{
       console.log(profileData);
