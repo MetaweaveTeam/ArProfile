@@ -9,8 +9,12 @@ import { webWallet } from '../utils/api'
 async function connectWallet(walletName:T_walletName) {
   switch(walletName) {
     case 'arconnect':
-      //@ts-ignore arweave-js does not have the latest arconnect type defitions that include 'DISPATCH'
-      await window.arweaveWallet.connect(['ACCESS_ADDRESS','ACCESS_ALL_ADDRESSES','SIGN_TRANSACTION','DISPATCH']);
+      try {
+        await window.arweaveWallet.connect(['ACCESS_ADDRESS','ACCESS_ALL_ADDRESSES','SIGN_TRANSACTION','DISPATCH']);
+      }
+      catch(e){
+        console.error(e);
+      }
       break;
     case 'webwallet':
       await webWallet.connect();
